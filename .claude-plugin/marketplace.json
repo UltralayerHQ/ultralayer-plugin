@@ -1,0 +1,22 @@
+{
+  "name": "ultralayer-marketplace",
+  "owner": {
+    "name": "Ultralayer",
+    "url": "https://ultralayer.ai"
+  },
+  "plugins": [
+    {
+      "name": "ultralayer",
+      "source": "./",
+      "description": "Ultralayer MCP server and agent skills",
+      "author": {
+        "name": "Ultralayer",
+        "url": "https://ultralayer.ai"
+      },
+      "homepage": "https://ultralayer.ai",
+      "repository": "https://github.com/UltralayerHQ/ultralayer-plugin",
+      "license": "MIT",
+      "keywords": ["ultralayer", "mcp", "skills", "search", "wire", "alerts"]
+    }
+  ]
+}

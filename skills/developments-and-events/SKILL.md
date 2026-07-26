@@ -9,8 +9,8 @@ description: Structured market narratives — impact-scored, source-cited develo
 
 | Operation | Role |
 |-----------|------|
-| `search_developments` | Semantic or filter search over developments |
-| `retrieve_development` | Full package for one `development_id` (optional as-of) |
+| `search_developments` | Semantic or filter search over developments — returns full packages |
+| `retrieve_development` | Full package for one known `development_id` (optional as-of) |
 | `search_events` | Semantic or filter search over events; embeds recent development summaries |
 | `retrieve_event_developments` | Event metadata + full developments timeline |
 
@@ -154,17 +154,20 @@ Three clocks (do not conflate):
 
 Optional `query`: semantic over development descriptions, ranked by cosine (cosine not returned in the response). No query: latest version per `development_id` matching filters, ordered by `timestamp` DESC.
 
+Returns **full packages** (rationale, stakeholders, sources, event summaries). You do not need `retrieve_development` after a search hit unless you need as-of reconstruction for a known id.
+
 | Param | Notes |
 |-------|-------|
-| `stakeholder_symbol` | **Exact ticker** as stored (`TSLA`, `GOOGL`, `SGRO.L`). `tsla` → `[]`. Not Ultralayer canonical names. |
+| `query` | Optional. Max 2000 chars. |
+| `stakeholder_symbol` | **Exact ticker** as stored (`TSLA`, `GOOGL`, `SGRO.L`). Max 8 chars. `tsla` → `[]`. Not Ultralayer canonical names. |
 | `min_impact_score` / `max_impact_score` | Alone: threshold. **Together: directional OR** (`impact >= min OR impact <= max`) — requires `min >= max` (e.g. `0.5` + `-0.5`). |
 | `min_importance_score` / `min_surprise_score` / `min_confidence_score` | Importance ~0.8+ is a strong desk filter |
 | `development_type` | Exact free-form string (`financial_update`, `corporate_action`, `geopolitical_security`, …). Invented values silently return `[]`. Discover types from results. |
 | `start_timestamp` / `end_timestamp` | On development `timestamp`. Future start → 422. Future end → realtime. |
 | `start_occurrence_timestamp` / `end_occurrence_timestamp` | Real-world occurrence clock |
-| `limit` | Default 10, max 200 |
+| `limit` | Default 5, max 20 |
 
-Packages are large (rationale + per-stakeholder quotes). Prefer tight `limit` (3–10), then `retrieve_development` for ids you brief.
+Packages are large (rationale + per-stakeholder quotes). Prefer tight `limit` (3–10); expand event context with `retrieve_event_developments` when you need the storyline.
 
 `occurrence_status` values seen: `occurred`, `scheduled`, `announced`, `ongoing`, `rumored` — no status filter param.
 
@@ -173,6 +176,8 @@ Packages are large (rationale + per-stakeholder quotes). Prefer tight `limit` (3
 ## retrieve_development
 
 Required: `development_id`. Optional: `end_timestamp` for as-of (latest version with `timestamp <= end`).
+
+Use when you already have an id (from an alert, prior run, or citation) or need as-of reconstruction. Search results already include the full package — do not re-fetch the same id after `search_developments`.
 
 Missing id → 404. As-of before the development existed → 404. Future `end_timestamp` → realtime.
 
@@ -186,12 +191,13 @@ Timestamp filters gate on **development activity**: an older event still appears
 
 | Param | Notes |
 |-------|-------|
+| `query` | Optional. Max 2000 chars. |
 | `event_type` | Exact free-form (`merger_acquisition`, `earnings`, `product_launch`, `executive_succession`, …) |
-| `limit` | Default 10, max 50 |
-| `developments_per_event` | Default 3, max 10, **0 allowed** (event cards only — cheap scanning) |
+| `limit` | Default 5, max 10 |
+| `developments_per_event` | Default 3, max 5, **0 allowed** (event cards only — cheap scanning) |
 | `include_future_developments` | Default true. Filters on `occurrence_timestamp` vs now/end — does not drop past-dated `scheduled` items |
 
-Embedded `recent_developments` are summaries (no rationale/stakeholders/sources). Escalate with retrieve_* for depth.
+Embedded `recent_developments` are summaries (no rationale/stakeholders/sources). Escalate with `retrieve_event_developments` or `search_developments` for full packages.
 
 ---
 
@@ -199,7 +205,13 @@ Embedded `recent_developments` are summaries (no rationale/stakeholders/sources)
 
 Required: `event_id`. Returns event metadata + full developments ordered by `occurrence_timestamp` DESC.
 
-`start_timestamp` / `end_timestamp` filter on development **recording** time (useful for polling new packages). Missing event → 404.
+| Param | Notes |
+|-------|-------|
+| `limit` | Default 5, max 20 |
+| `start_timestamp` / `end_timestamp` | Filter on development **recording** time (useful for polling new packages) |
+| `include_future_developments` | Default true |
+
+Missing event → 404.
 
 ---
 
@@ -208,16 +220,17 @@ Required: `event_id`. Returns event metadata + full developments ordered by `occ
 | User intent | Approach |
 |-------------|----------|
 | “Who is affected by X?” | `search_developments` → read stakeholder impacts; cite quotes |
-| “What’s the Tesla earnings story this year?” | Find a financial development → `event_id` → `retrieve_event_developments` |
+| “What’s the Tesla earnings story this year?” | `search_developments` or `search_events` → take `event_id` → `retrieve_event_developments` |
 | “Any big M&A?” | `search_events` with `event_type: merger_acquisition` |
 | “Negative for GOOGL?” | `stakeholder_symbol: GOOGL`, `max_impact_score: -0.5` |
 | “What just printed that’s important?” | No-query search + `min_importance_score: 0.8` |
 | “Headline triage / first print” | Wire first; escalate here for structured impact |
+| “Reconstruct this development as of T” | `retrieve_development` with `end_timestamp` |
 
 1. Decide grain: atomic impact update (developments) vs storyline cluster (events).
 2. Prefer ticker + score filters for desk questions; prefer semantic query for themes.
 3. Keep `limit` small; set `developments_per_event` low (or 0) when scanning events.
-4. From a strong hit, expand with retrieve_*.
+4. `search_developments` already returns full packages — do not call `retrieve_development` on those ids. Expand storylines with `retrieve_event_developments`.
 5. Collapse near-duplicate developments under the same event before briefing.
 6. Hand off to Wire for live novelty, semantic search for raw evidence, `retrieve_entity` for identity packages.
 
@@ -227,7 +240,7 @@ Required: `event_id`. Returns event metadata + full developments ordered by `occ
 
 - Near-duplicate developments can exist as separate ids for the same real-world fact — dedupe by event + occurrence window + name similarity.
 - Stakeholders are **PUBLIC_COMPANY + ticker only** — no countries/commodities/people as stakeholders.
-- Ticker strings are exact and case-sensitive (`TSLA` ≠ `tsla`).
+- Ticker strings are exact and case-sensitive (`TSLA` ≠ `tsla`), max 8 chars.
 - `development_type` / `event_type` are not closed enums — inventing labels yields empty results.
 - Cosine not exposed for thresholding.
 - Packages are heavy — bad default for large scans without tight limits or `developments_per_event: 0`.
@@ -257,4 +270,4 @@ A: Timestamps gate development activity. Old events with new developments in-win
 A: Expected — no version existed yet.
 
 **Q: search_events vs search_developments?**  
-A: Events for clusters/lifecycles; developments for atomic updates + stakeholder math. Typical flow: search either → grab ids → retrieve_*.
+A: Events for clusters/lifecycles (summaries); developments for atomic updates + stakeholder math (full packages). Typical flow: search either → expand with `retrieve_event_developments` when you need the timeline; use `retrieve_development` only for a known id or as-of.

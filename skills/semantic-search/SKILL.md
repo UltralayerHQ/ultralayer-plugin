@@ -10,7 +10,7 @@ Semantic search retrieves indexed document chunks ranked by embedding cosine sim
 | Operation | Role |
 |-----------|------|
 | `semantic_search` | Single query → top-k chunks by cosine similarity |
-| `semantic_search_multi` | 2–50 queries → flattened, deduped, ranked list |
+| `semantic_search_multi` | 2–8 queries → flattened, deduped, ranked list |
 
 ---
 
@@ -182,7 +182,7 @@ Future `end_timestamp` is treated as realtime (no upper bound).
 
 ## semantic_search_multi
 
-Required: `queries` with min 2, max 50. One call, server-side dedupe, consolidation strategies.
+Required: `queries` with min 2, max 8. One call, server-side dedupe, consolidation strategies.
 
 | Strategy | Bias | When |
 |----------|------|------|

@@ -82,9 +82,9 @@ Generic LLMs invent tickers; this endpoint retrieves evidence, cites exact quote
 
 | Param | Role |
 |-------|------|
-| `query` (required) | The situation. Non-empty after strip; blank → 422. |
-| `context` | Extra facts about the situation (what happened, numbers, constraints) |
-| `instructions` | How to shape the answer (coverage, count, sectors to prefer/avoid) — not treated as the search subject |
+| `query` (required) | The situation. Non-empty after strip; blank → 422. Max **2000** characters. |
+| `context` | Extra facts about the situation (what happened, numbers, constraints). Max **12000** characters. |
+| `instructions` | How to shape the answer (coverage, count, sectors to prefer/avoid) — not treated as the search subject. Max **2000** characters. |
 | `end_timestamp` | Omit/null = **realtime**. Past = **backfill**. Future → realtime. No `start_timestamp`. |
 
 Prefer a concrete situation over a vague theme. Put hard facts in `context`; put process prefs in `instructions` (`"Prefer fewer high-confidence names"`, `"At most 6 names"`). Instructions work — they change count and composition.
@@ -173,3 +173,6 @@ A: Take symbols → Wire filters, `search_developments(stakeholder_symbol=…)`,
 
 **Q: Empty / whitespace query?**  
 A: 422 `query must be a non-empty string.`
+
+**Q: Query / context / instructions too long?**  
+A: 422. Caps are 2000 chars (`query` / `instructions`) and 12000 chars (`context`).

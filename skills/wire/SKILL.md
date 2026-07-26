@@ -143,7 +143,7 @@ Prefer `novelty: ["new","update","correction"]` and `max_records` 10–30 with t
 
 ## list_wire
 
-Returns up to `max_records` (1–100, default 10) matching items, newest by `source_timestamp`.
+Returns up to `max_records` (1–100, default 20) matching items, newest by `source_timestamp`.
 
 ### Filtration vs sort
 
@@ -196,6 +196,8 @@ Sentiment bounds apply to the matching mention, not the whole item.
 
 Filters combine with AND across dimensions; within multi-value arrays, include-any (OR).
 
+Keep filter lists tight: across `categories`, `entities`, `sectors`, `industries`, `countries`, `asset_classes`, and `publisher`, at most **12 values total** are allowed in one request.
+
 ---
 
 ## wire_storyline
@@ -212,11 +214,16 @@ Given a `wire_id`, returns the novelty storyline: linear `prior_wire_id` ancesto
 
 Items are chronological by `source_timestamp` ascending.
 
+| Param | Notes |
+|-------|-------|
+| `max_ancestor_depth` | Default 32, max 64. Caps the linear prior walk (including the seed). |
+| `max_children` | Default 32, max 64. Caps first-degree children across the whole chain. |
+
 ### Topology
 
-1. Walk seed → `prior_wire_id` → … until root, time-window break, or depth cap.
+1. Walk seed → `prior_wire_id` → … until root, time-window break, or `max_ancestor_depth`.
 2. Ancestors are walked even through duplicates so the chain stays connected; novelty filtering is applied when projecting the response (seed always kept).
-3. Children: only direct children of chain nodes.
+3. Children: only direct children of chain nodes, capped by `max_children`.
 4. `root_wire_id` is set only if the walk reached a row with `prior_wire_id: null`. **`root_wire_id: null` means truncated** (time window or depth).
 5. Seed outside the requested time window → **404**. Unknown `wire_id` → **404**.
 
@@ -279,7 +286,7 @@ A: Tickers are not resolved. Use suggestions only as hints, then confirm the can
 A: Default novelty drops `duplicate`. Add it explicitly.
 
 **Q: `root_wire_id` is null but items exist.**  
-A: Ancestry was truncated by time window or depth. Widen `start_timestamp` or treat as a partial chain.
+A: Ancestry was truncated by time window or `max_ancestor_depth`. Widen `start_timestamp`, raise the depth cap, or treat as a partial chain.
 
 **Q: Sort order looks wrong vs IDs.**  
 A: `list_wire` sorts by `source_timestamp` desc, not `wire_id`. Filtration still uses `timestamp`.

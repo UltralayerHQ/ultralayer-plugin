@@ -1,6 +1,6 @@
 ---
 name: entity-retrieval
-description: Realtime context package for one entity — identity, recent high-relevance headlines, 14-day sentiment, top co-mentions, and structured attributes. Operation is retrieve_entity.
+description: Realtime context package for one entity — identity, recent high-relevance headlines, 14-day sentiment, and top co-mentions. Operation is retrieve_entity.
 ---
 
 # Entity Retrieval
@@ -20,7 +20,6 @@ description: Realtime context package for one entity — identity, recent high-r
 - Resolve the correct `canonical_name` + `entity_id` before Wire filters
 - Read 14-day mention sentiment without hand-rolling Wire aggregation
 - Discover who co-moves in the news with the target
-- Pull attribute bags (CEO, ticker, products, market cap, …) as starting facts — then verify
 
 **Do not use when you need:**
 - A filtered multi-entity news firehose → Wire
@@ -32,7 +31,7 @@ description: Realtime context package for one entity — identity, recent high-r
 
 ## Use cases
 
-**Company dossier seed** — One call for recent headlines, 14-day sentiment, who else is in the story, and structured attributes.
+**Company dossier seed** — One call for recent headlines, 14-day sentiment, and who else is in the story.
 ```json
 { "entity": "Tesla, Inc." }
 ```
@@ -75,7 +74,6 @@ Use co-mentions (Iran, Hormuz, WTI) to choose Wire entity filters and semantic q
 | `recent_wire_items` | Up to 5 teasers; novelty `new\|update\|correction`; entity is `primary` or `significant`; includes `wire_id` for storyline |
 | `sentiment_chart` | Exactly 14 UTC calendar-day bars, oldest → newest. Relevance-weighted mean ∈ [-1, 1], weighted std, `mention_count`. Empty days stay with `weighted_sentiment: null`. Current day is a partial bar. |
 | `co_mentions` | Top peers with `share` (fraction of recent high-relevance wire that also mentions them at primary/significant) |
-| `attributes` | NER-aggregated facts (CEO, TICKER, PRODUCTS, MARKET_CAP, …). Keys vary; can be `{}` |
 
 Requires sufficient recent wire activity; sparse entities return 422 `insufficient_entity_activity`.
 
@@ -107,8 +105,6 @@ Unknown names → `unresolved_entities` + `suggestions` (candidates to retry, no
 
 **Co-mentions.** “Who shares the recent high-relevance tape?” Near-duplicate registry rows often both appear (`SpaceX` + `Space Exploration Technologies Corp.`, `United States` + `United States of America`). Collapse when briefing.
 
-**Attributes.** Useful starting facts, not a fundamentals database. Companies are densest; commodities/countries often thin or empty. Lists are synonym-heavy. Can flip quickly off NER (e.g. CEO field updating with succession headlines) — treat as hypothesis to verify.
-
 Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Products (e.g. `"ChatGPT"`) often fail the activity gate.
 
 ---
@@ -117,16 +113,15 @@ Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Produc
 
 | User intent | Approach |
 |-------------|----------|
-| “Brief me on X” | Package → recent wires + sentiment turn + co-mentions + verified attributes |
+| “Brief me on X” | Package → recent wires + sentiment turn + co-mentions |
 | “What’s the right entity name for Wire?” | Call here; reuse `canonical_name` exactly |
 | “Who is moving with oil / AI / this CEO?” | Read `co_mentions`; optionally package those peers |
 | “Is tape tone improving?” | Walk `sentiment_chart` with mention_count/std |
-| “Give me fundamentals” | Attributes are a seed only — confirm via semantic search / trusted wire |
 | “Watch every mention going forward” | After resolving the name, use Wire (and alerts) |
 
 1. Choose the best canonical guess (full legal-style name for listed companies).
 2. Call `retrieve_entity`. On `insufficient_entity_activity`, retry fuller forms before concluding the entity is quiet. On `unresolved_entities`, retry the best suggestion.
-3. Brief from: recent wires → sentiment turn → co-mentions → attributes (facts to verify).
+3. Brief from: recent wires → sentiment turn → co-mentions.
 4. Hand off: Wire for monitoring/storylines; semantic search for evidence passages.
 
 ---
@@ -138,7 +133,6 @@ Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Produc
 - Activity gate hides quiet names and punishes ambiguous short names.
 - Public input is name only (passing `entity_id` as a string does not work).
 - Recent strip is fixed at 5 non-duplicate high-relevance items.
-- Attributes are NER aggregates: incomplete, contradictory, occasionally wrong.
 - Co-mentions surface unmerged duplicate identities.
 - Not a substitute for Wire novelty clustering or semantic passage retrieval.
 
@@ -152,14 +146,5 @@ A: Short `"Tesla"` matches a different sparse registry entity. Same trap as Wire
 **Q: Can I pass `TSLA` or the numeric `entity_id`?**  
 A: No. Tickers and id-strings → `unresolved_entities`. Use the canonical name.
 
-**Q: Why is Gold’s attribute `COMPANY: Robinhood Markets, Inc.`?**  
-A: Attribute noise from document NER. Cross-check before citing.
-
 **Q: Why do SpaceX and “Space Exploration Technologies Corp.” both show as co-mentions?**  
 A: Incomplete entity merges. Treat as one org in the narrative unless you need registry fidelity.
-
-**Q: Empty `attributes` on Brent / United States — broken?**  
-A: Common for non-company types. Lean on wires + co-mentions instead.
-
-**Q: Are attributes filings-grade facts?**  
-A: No. Verify material facts before citing.

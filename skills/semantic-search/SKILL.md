@@ -137,9 +137,31 @@ Each hit is a **chunk**, not a full article.
 | `canonical_entity_names` | Can be empty even when the text discusses a company |
 | `document_id` | Many chunks can share one document — collapse before briefing |
 | `timestamp` | Used for time filters |
-| `source` | `source_table` (`news`, `youtube`, `x_news`, …), `source_metadata` (`url`, `title`, `publisher`) |
+| `source` | `url`, `source_table` (`news`, `youtube`, `x_news`, …), `source_metadata` (`title`, `publisher`, …) |
 
 Prefer specific queries + modest `top_k` (5–15). Skim by `document_id`.
+
+---
+
+## Response detail
+
+Both operations accept `detail`. **Default is `full`.** Reduced levels **drop keys** only — surviving fields keep the same names and paths as `full`. Pricing does not change with `detail`; this is about **response token cost** in the agent context.
+
+| Level | What you get | Rough token savings vs `full` |
+|-------|----------------|-------------------------------|
+| `essential` | `title` + `content` + source timestamp | ~46% |
+| `standard` | essential + citable source (`source_table`, `source_id`, `url`, and `source_metadata.title` when present) | ~34% |
+| `full` | Every field (scores, entity names, document id, full source metadata, …) | — |
+
+**Prefer `detail: "standard"`** for normal agent calls (enough to cite). Use `essential` when stuffing many hits into context; use `full` only when you need scores, entity names, or full source metadata.
+
+```json
+{
+  "query": "STMicroelectronics AI data center revenue guidance 2026 2027",
+  "top_k": 8,
+  "detail": "standard"
+}
+```
 
 ---
 
@@ -147,6 +169,7 @@ Prefer specific queries + modest `top_k` (5–15). Skim by `document_id`.
 
 | Param | Default | Implication |
 |-------|---------|-------------|
+| `detail` | `full` | Prefer `standard` (see **detail** above). |
 | `start_timestamp` | `2026-01-01T00:00:00Z` | Not “all history.” Set explicitly for recent work or true backtests. |
 | `utility_score_ge` | `0.4` | Raise (e.g. 0.7) for denser results |
 | `top_k` | `10` (single), max 100 | |
@@ -210,7 +233,7 @@ After consolidation, the returned list is still ordered by `cosine_similarity`. 
 1. Decide Wire vs semantic search (headlines/novelty vs passage evidence).
 2. Write a specific query (or 2–5 facet queries for multi). Set `start_timestamp` explicitly.
 3. Tighten with `utility_score_ge`, optional cosine floor ~0.70, publisher/entity_types only when needed.
-4. Collapse by `document_id`; quote `content` with URL from `source.source_metadata`.
+4. Collapse by `document_id`; quote `content` with URL from `source.url`.
 5. For live story / who printed first, switch to Wire with canonical names from chunk entities.
 
 ---

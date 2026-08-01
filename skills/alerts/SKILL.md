@@ -42,7 +42,8 @@ Alerts wrap an existing Ultralayer endpoint, poll it on a schedule, skip what wa
     "novelty": ["new", "update", "correction"],
     "entity_relevance": ["primary", "significant"],
     "min_entity_sentiment": 0.3,
-    "max_entity_sentiment": -0.3
+    "max_entity_sentiment": -0.3,
+    "detail": "full"
   },
   "interval_minutes": 15,
   "threshold": 1,
@@ -60,7 +61,8 @@ Exact canonical names (see Wire). Sentiment min/max together = strong positive *
     "query": "Strait of Hormuz tanker disruption Brent crude",
     "top_k": 10,
     "utility_score_ge": 0.5,
-    "cosine_similarity_ge": 0.7
+    "cosine_similarity_ge": 0.7,
+    "detail": "standard"
   },
   "interval_minutes": 30,
   "receivers": [
@@ -78,7 +80,8 @@ Exact canonical names (see Wire). Sentiment min/max together = strong positive *
   "arguments": {
     "stakeholder_symbol": "TSLA",
     "min_importance_score": 0.7,
-    "limit": 20
+    "limit": 20,
+    "detail": "full"
   },
   "interval_minutes": 30,
   "receivers": [{ "type": "telegram", "chat_id": "123456789" }]
@@ -93,7 +96,8 @@ Exact canonical names (see Wire). Sentiment min/max together = strong positive *
   "arguments": {
     "event_id": 125,
     "limit": 20,
-    "include_future_developments": true
+    "include_future_developments": true,
+    "detail": "standard"
   },
   "interval_minutes": 60,
   "lookback_minutes": 180,
@@ -110,7 +114,8 @@ Discover `event_id` via `search_events` or a development hit first.
   "arguments": {
     "event_type": "merger_acquisition",
     "developments_per_event": 1,
-    "limit": 10
+    "limit": 10,
+    "detail": "essential"
   },
   "interval_minutes": 60,
   "receivers": [{ "type": "email" }]

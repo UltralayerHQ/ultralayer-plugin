@@ -117,6 +117,28 @@ The Wire is Ultralayer’s structured news firehose: short, fact-dense headlines
 
 ---
 
+## Response detail
+
+Both operations accept `detail`. **Default is `full`.** Reduced levels **drop keys** only — surviving fields keep the same names and paths as `full`. Pricing does not change with `detail`; this is about **response token cost** in the agent context (wire lists can be large).
+
+| Level | What you get | Rough token savings vs `full` |
+|-------|----------------|-------------------------------|
+| `essential` | `wire_id`, `source_timestamp`, `headline`, `publisher`, `novelty`, thinned `entities` (name / relevance / sentiment) | Large — drops url, scores, `about`, taxonomy, most entity identifiers |
+| `standard` | essential + `url` for citation | Between essential and full (url only vs essential) |
+| `full` | Every field (`about`, scores, content type, categories, full entity detail, …) | — |
+
+Exact wire percentages are not published yet; treat essential as the big cut and standard as the usual cite-ready middle. **Prefer `detail: "standard"`** for normal agent calls. Use `essential` for dense scans; use `full` when you need scores, `about`, or full entity identifiers.
+
+```json
+{
+  "max_records": 25,
+  "novelty": ["new", "update", "correction"],
+  "detail": "standard"
+}
+```
+
+---
+
 ## What you get back
 
 Each item is a compact decision object. Headlines are usually one dense sentence with numbers, entities, and the delta.
@@ -143,7 +165,7 @@ Prefer `novelty: ["new","update","correction"]` and `max_records` 10–30 with t
 
 ## list_wire
 
-Returns up to `max_records` (1–100, default 20) matching items, newest by `source_timestamp`.
+Returns up to `max_records` (1–100, default 20) matching items, newest by `source_timestamp`. Pass `detail` (default `full`; prefer `standard` — see **detail** above).
 
 ### Filtration vs sort
 
@@ -218,6 +240,7 @@ Items are chronological by `source_timestamp` ascending.
 |-------|-------|
 | `max_ancestor_depth` | Default 32, max 64. Caps the linear prior walk (including the seed). |
 | `max_children` | Default 32, max 64. Caps first-degree children across the whole chain. |
+| `detail` | Default `full`. Prefer `standard`. |
 
 ### Topology
 

@@ -78,6 +78,27 @@ Generic LLMs invent tickers; this endpoint retrieves evidence, cites exact quote
 
 ---
 
+## Response detail
+
+`identify_stakeholders` accepts `detail`. **Default is `full`.** Reduced levels **drop keys** only — surviving fields keep the same names and paths as `full`. Pricing does not change with `detail`; this is about **response token cost** in the agent context (especially valuable here — SI payloads are large).
+
+| Level | What you get | Rough token savings vs `full` |
+|-------|----------------|-------------------------------|
+| `essential` | Stakeholders with impact + rationale; factor matrix with name/description/value/rationale (no sources, no confidence, no rubrics/scale) | ~80% |
+| `standard` | essential + confidence, factor scale/rubric, and citable sources (no quotes) | ~31% |
+| `full` | Every field including source quotes and full factor definitions | — |
+
+**Prefer `detail: "standard"`** for normal agent calls. Use `essential` for a cheap ranked map; use `full` when you need auditable quotes in the payload.
+
+```json
+{
+  "query": "Strait of Hormuz near-total closure and oil supply shock",
+  "detail": "standard"
+}
+```
+
+---
+
 ## Params
 
 | Param | Role |
@@ -86,6 +107,7 @@ Generic LLMs invent tickers; this endpoint retrieves evidence, cites exact quote
 | `context` | Extra facts about the situation (what happened, numbers, constraints). Max **12000** characters. |
 | `instructions` | How to shape the answer (coverage, count, sectors to prefer/avoid) — not treated as the search subject. Max **2000** characters. |
 | `end_timestamp` | Omit/null = **realtime**. Past = **backfill**. Future → realtime. No `start_timestamp`. |
+| `detail` | Default `full`. Prefer `standard` (see **detail** above). |
 
 Prefer a concrete situation over a vague theme. Put hard facts in `context`; put process prefs in `instructions` (`"Prefer fewer high-confidence names"`, `"At most 6 names"`). Instructions work — they change count and composition.
 

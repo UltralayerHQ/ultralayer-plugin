@@ -59,9 +59,9 @@ Exact canonical names (see Wire). Sentiment min/max together = strong positive *
   "path": "/v0/search/semantic_search",
   "arguments": {
     "query": "Strait of Hormuz tanker disruption Brent crude",
-    "top_k": 10,
-    "utility_score_ge": 0.5,
-    "cosine_similarity_ge": 0.7,
+    "max_tokens": 1000,
+    "min_utility_score": 0.5,
+    "min_cosine_similarity": 0.75,
     "detail": "standard"
   },
   "interval_minutes": 30,

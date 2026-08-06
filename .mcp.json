@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "ultralayer": {
+    "ultralayer-v0": {
       "type": "http",
       "url": "https://api.ultralayer.ai/v0/mcp"
     }

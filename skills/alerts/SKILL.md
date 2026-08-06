@@ -156,11 +156,47 @@ Wire for company/news. Developments/events for structured lifecycle. Semantic se
 |------|--------|
 | `email` | `{ "type": "email" }` — delivers to the verified account email |
 | `telegram` | `{ "type": "telegram", "chat_id": "…" }` — start the Ultralayer alerts bot first |
-| `webhook` | `{ "type": "webhook", "url": "…", "headers"? }` — public http(s) only |
+| `webhook` | `{ "type": "webhook", "url": "…", "headers"?, "body_wrap_key"?, "body_wrap_as_string"?, "body_extra"? }` — public http(s) only |
 
-Envelope: `{ "name": "<alert name>", "response": <exact upstream JSON> }`. Subject: `ULTRALAYER ALERT: {name}`.
+Canonical envelope: `{ "name": "<alert name>", "response": <exact upstream JSON> }`. Email/telegram always get that envelope. Subject: `ULTRALAYER ALERT: {name}`.
 
 `create_alert` immediately calls the endpoint and delivers a **sample** to every receiver before persisting.
+
+#### Webhook body shaping
+
+Use these when the receiving API rejects an arbitrary JSON body and requires a fixed envelope. Structured merge only — no templating.
+
+| Field | Role |
+|-------|------|
+| `body_wrap_key` | Place the envelope under this key. One level of dot-separated nesting (`variables.PAYLOAD` → `{"variables": {"PAYLOAD": …}}`). |
+| `body_wrap_as_string` | JSON-encode the envelope to a string before placing it. Requires `body_wrap_key`. |
+| `body_extra` | Static keys merged into the top level of the body. Values must be string / number / boolean / null. |
+
+Examples:
+
+```json
+{
+  "type": "webhook",
+  "url": "https://api.example.com/hooks/ingest",
+  "headers": { "Authorization": "Bearer …" },
+  "body_wrap_key": "client_payload",
+  "body_extra": { "event_type": "ultralayer_alert" }
+}
+```
+→ `{ "event_type": "ultralayer_alert", "client_payload": { "name": "…", "response": … } }`
+
+```json
+{
+  "type": "webhook",
+  "url": "https://ci.example.com/api/v4/projects/1/trigger/pipeline",
+  "body_wrap_key": "variables.PAYLOAD",
+  "body_wrap_as_string": true,
+  "body_extra": { "token": "…", "ref": "main" }
+}
+```
+→ `{ "token": "…", "ref": "main", "variables": { "PAYLOAD": "{\"name\":…}" } }`
+
+Arbitrary-JSON receivers (Zapier, Make, n8n, custom endpoints) need none of these fields.
 
 ---
 
@@ -188,6 +224,8 @@ There is no update-alert endpoint. Changing filters = delete + recreate.
 - Only the alertable paths listed above.
 - Max 2 receivers; email is account-bound.
 - Webhooks must be public.
+- Webhook `headers` are count- and size-capped, and framing, routing and provenance headers (`Host`, `Content-Type`, `Content-Length`, `User-Agent`, `X-Forwarded-*`, …) are rejected. `Authorization`, `Cookie` and custom `X-` headers are fine.
+- Webhook `body_extra` and `body_wrap_key` are count-, size- and character-capped — see the OpenAPI schema for exact limits. Values are scalars only, and a field name containing a literal `.` cannot be targeted by `body_wrap_key`.
 - Create always sends a sample — warn before creating noisy webhooks.
 - No patch API for existing alerts.
 

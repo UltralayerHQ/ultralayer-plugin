@@ -11,7 +11,7 @@ description: Map a market situation to ranked public-company winners and losers 
 |-----------|------|
 | `identify_stakeholders` | Situation → ranked stakeholders + factor matrix |
 
-**Latency:** commonly ~90 seconds; often 1–2+ minutes. Budget for that. Do not treat timeouts as “empty universe.” Do not spam parallel calls.
+**Latency:** commonly ~2 minutes. Budget for that. Do not treat timeouts as “empty universe.” Do not spam parallel calls.
 
 ---
 
@@ -160,7 +160,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 
 1. Confirm the user wants situation → public-company exposure.
 2. Craft a specific `query`; add `context` / `instructions` only when they sharpen the job.
-3. Choose realtime vs backfill. Warn about ~1–2 min wait.
+3. Choose realtime vs backfill. Warn about ~2 min wait.
 4. Call once; wait. On timeout, retry once — do not fan out parallel SI calls.
 5. Brief: top ± impacts → factor matrix highlights → cite 1–2 quotes per key name.
 6. Offer follow-ups via Wire / developments / `retrieve_entity` / semantic search using returned symbols.
@@ -169,7 +169,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 
 ## Limitations
 
-- Slow — plan for ~90s; avoid speculative retries and fan-out.
+- Slow — plan for ~2 minutes; avoid speculative retries and fan-out.
 - Public companies only; listing suffixes vary (`SMSN.IL`, `BYDDF`, `AMKBY`).
 - Verification can drop proposed names — final list ⊆ verified survivors.
 - Not a price target or trading signal — impact scores are reasoned exposures with citations.

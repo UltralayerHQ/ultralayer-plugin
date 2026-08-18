@@ -23,7 +23,7 @@ description: Realtime context package for one entity — identity, recent high-r
 
 **Do not use when you need:**
 - A filtered multi-entity news firehose → Wire
-- Quoteable document passages → `semantic_search`
+- PIT or utility-filtered corpus passages → `semantic_search`
 - Point-in-time / as-of packages → not supported (realtime only)
 - Sparse / quiet entities → fails with `insufficient_entity_activity`
 
@@ -122,7 +122,7 @@ Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Produc
 1. Choose the best canonical guess (full legal-style name for listed companies).
 2. Call `retrieve_entity`. On `insufficient_entity_activity`, retry fuller forms before concluding the entity is quiet. On `unresolved_entities`, retry the best suggestion.
 3. Brief from: recent wires → sentiment turn → co-mentions.
-4. Hand off: Wire for monitoring/storylines; semantic search for evidence passages.
+4. Hand off: Wire for monitoring/storylines; your native web search tool for ordinary evidence; `semantic_search` only for PIT or utility-filtered corpus hits.
 
 ---
 

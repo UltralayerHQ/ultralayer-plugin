@@ -58,7 +58,7 @@ Exact canonical names (see Wire). Sentiment min/max together = strong positive *
   "name": "Hormuz Oil Passages",
   "path": "/v0/search/semantic_search",
   "arguments": {
-    "query": "Strait of Hormuz tanker disruption Brent crude",
+    "queries": ["Strait of Hormuz tanker disruption Brent crude"],
     "max_tokens": 1000,
     "min_utility_score": 0.5,
     "min_cosine_similarity": 0.75,
@@ -129,7 +129,7 @@ Discover `event_id` via `search_events` or a development hit first.
 | `path` | What you’re monitoring |
 |--------|------------------------|
 | `/v0/search/list_wire` | Filtered headlines |
-| `/v0/search/semantic_search` | Passages by meaning |
+| `/v0/search/semantic_search` | PIT / utility-filtered corpus passages |
 | `/v0/search/search_developments` | Structured developments |
 | `/v0/search/search_events` | Events with recent activity |
 | `/v0/search/retrieve_event_developments` | Developments on a known `event_id` |

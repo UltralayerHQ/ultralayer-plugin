@@ -1,6 +1,6 @@
 {
   "name": "ultralayer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Ultralayer MCP server and agent skills",
   "author": {
     "name": "Ultralayer",
@@ -9,7 +9,7 @@
   "homepage": "https://ultralayer.ai",
   "repository": "https://github.com/UltralayerHQ/ultralayer-plugin",
   "license": "MIT",
-  "keywords": ["ultralayer", "mcp", "skills", "search", "wire", "alerts"],
+  "keywords": ["ultralayer", "mcp", "skills", "search", "wire", "guidance", "changes", "alerts"],
   "logo": "assets/logo.png",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"

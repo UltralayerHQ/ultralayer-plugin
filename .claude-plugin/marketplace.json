@@ -16,7 +16,7 @@
       "homepage": "https://ultralayer.ai",
       "repository": "https://github.com/UltralayerHQ/ultralayer-plugin",
       "license": "MIT",
-      "keywords": ["ultralayer", "mcp", "skills", "search", "wire", "alerts"]
+      "keywords": ["ultralayer", "mcp", "skills", "search", "wire", "guidance", "changes", "alerts"]
     }
   ]
 }

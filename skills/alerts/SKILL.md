@@ -20,7 +20,7 @@ Alerts wrap an existing Ultralayer endpoint, poll it on a schedule, skip what wa
 ## When to use
 
 **Use alerts when you need:**
-- Continuous monitoring of Wire, semantic search, developments, or events
+- Continuous monitoring of Wire, semantic search, developments, filings, or events
 - Delivery to inbox, Telegram, or a webhook without running your own cron
 - The same conditions you already validated interactively, left running
 
@@ -122,6 +122,51 @@ Discover `event_id` via `search_events` or a development hit first.
 }
 ```
 
+**Guidance raised or cut** — Across the market, get emailed when a company revises an official outlook up or down.
+```json
+{
+  "name": "Guidance raised or cut",
+  "path": "/v0/filings/list_guidance",
+  "arguments": {
+    "revision_direction": ["raised", "lowered"],
+    "detail": "standard",
+    "limit": 10
+  },
+  "interval_minutes": 60,
+  "receivers": [{ "type": "email" }]
+}
+```
+
+**KPI definition and disclosure** — Across the market, get pinged when a release changes how a metric is calculated, or starts or stops highlighting a named KPI.
+```json
+{
+  "name": "KPI definition and disclosure",
+  "path": "/v0/filings/list_changes",
+  "arguments": {
+    "change_categories": ["metric_definition", "disclosed_metric"],
+    "detail": "standard",
+    "limit": 10
+  },
+  "interval_minutes": 60,
+  "receivers": [{ "type": "email" }]
+}
+```
+
+**Guide versus actual** — Get emailed when a prior guide significantly exceeds or significantly misses the reported result.
+```json
+{
+  "name": "Guidance versus actual",
+  "path": "/v0/filings/list_guidance_outcomes",
+  "arguments": {
+    "outcomes": ["significantly_exceeded", "significantly_missed"],
+    "detail": "standard",
+    "limit": 10
+  },
+  "interval_minutes": 60,
+  "receivers": [{ "type": "email" }]
+}
+```
+
 ---
 
 ## Alertable endpoints
@@ -133,8 +178,11 @@ Discover `event_id` via `search_events` or a development hit first.
 | `/v0/search/search_developments` | Structured developments |
 | `/v0/search/search_events` | Events with recent activity |
 | `/v0/search/retrieve_event_developments` | Developments on a known `event_id` |
+| `/v0/filings/list_guidance` | Official outlook series that moved in the window |
+| `/v0/filings/list_changes` | Wording changes in the window |
+| `/v0/filings/list_guidance_outcomes` | Company guidance versus the reported actual |
 
-Wire for company/news. Developments/events for structured lifecycle. Semantic search for thematic language.
+Wire for headlines. Developments/events for structured lifecycle. Semantic search for thematic language. `list_guidance` for the official outlook and revision. `list_changes` for wording changes between releases. `list_guidance_outcomes` for guide versus actual.
 
 ---
 

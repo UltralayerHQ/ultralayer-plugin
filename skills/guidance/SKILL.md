@@ -35,14 +35,14 @@ Every filter works **without a ticker list**, so these are cross-sectional scree
 
 ## Detail
 
-API default is `full`. **Set `standard` unless you need the numbers.** `detail` does not change price. `guidance_bias` has no `detail`.
+API default is `full`. **Set `standard` unless you need ranges, revision deltas, `observation_count`, or `cik`.** `detail` does not change price. `guidance_bias` has no `detail`.
 
 **`list_guidance`**
 
 | Level | What you get |
 |-------|----------------|
-| `standard` | Quote, `revision_direction`, `source_type`, cite. What an LLM should read. |
-| `full` | Parsed numbers (ranges, YoY, `revision_midpoint_delta_pct`), `observation_count`, `cik`, `source_metadata` |
+| `standard` | Quote, cite, `revision_direction`, `value_midpoint`, `unit`, `yoy_value_midpoint`, `yoy_unit`. What an LLM should read. |
+| `full` | Ranges, `revision_midpoint_delta_pct`, `observation_count`, `cik`, `source_metadata` |
 | `essential` | Quote, identity, `source_type`, `revision_direction`. No company name, ingest timestamp, URL, or numbers. |
 
 **`list_guidance_outcomes`**
@@ -175,11 +175,11 @@ Default `limit` is 10 (max 100). Default `values_mode` is `all`. Pin a metric or
 | `values[]` | Newest first |
 | `guided_period_end_date` | Use this to line up peers |
 
-**At `standard`, each value:** `quote`, `timestamp`, `source_type`, `revision_direction`, `source`. Trust the quote if a label disagrees.
+**At `standard`, each value:** `quote`, `timestamp`, `source_type`, `value_midpoint`, `unit`, `yoy_value_midpoint`, `yoy_unit`, `revision_direction`, `source`. Trust the quote if a label disagrees. A floor/ceiling midpoint is the stated bound, not a range center.
 
 `revision_direction` is vs the last observation of **this** series (`new` / `raised` / `lowered` / `maintained` / `withdrawn`), not good/bad. It can be `null` — that is not `new`.
 
-**Full only:** `revision_midpoint_delta_pct` (percent of the prior midpoint: 4.0 → 4.5 is +12.5, not +0.5), ranges, YoY, `observation_count` (length as of `end_timestamp`, not always `len(values)`), `cik`, `source_metadata`.
+**Full only:** `revision_midpoint_delta_pct` (percent of the prior midpoint: 4.0 → 4.5 is +12.5, not +0.5), ranges (`value_low`/`value_high`), `observation_count` (length as of `end_timestamp`, not always `len(values)`), `cik`, `source_metadata`.
 
 **Source:** `earnings_release` / `guidance_update` / `earnings_call`. At `standard`, `source_metadata` is null; the URL is still on the source. At `full`, `source_metadata.fiscal_year` / `fiscal_quarter` are the **document’s** completed period (a Q2 release guiding Q3 has Q2 here). To join `list_changes`, bump this call to `full` and use those fields — not `guided_*`.
 

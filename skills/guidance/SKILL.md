@@ -80,7 +80,7 @@ AND across fields; OR inside a list. Same names on `list_guidance` and `list_gui
 
 ---
 
-## `list_guidance`
+## list_guidance
 
 One object per series: ticker × metric × GAAP/non-GAAP × segment × period. `values[]` is that line’s history, newest first.
 
@@ -198,7 +198,7 @@ Default `limit` is 10 (max 100). Default `values_mode` is `all`. Pin a metric or
 
 ---
 
-## `list_guidance_outcomes`
+## list_guidance_outcomes
 
 Company guidance versus the reported actual. One pair per series after that period reported.
 
@@ -282,7 +282,7 @@ Match to `list_guidance` on ticker + metric + GAAP/non-GAAP + segment + period. 
 
 ---
 
-## `guidance_bias`
+## guidance_bias
 
 One name. Oldest report first. The whole series in the window.
 

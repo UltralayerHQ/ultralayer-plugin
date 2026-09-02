@@ -50,7 +50,7 @@ Alerts wrap an existing Ultralayer endpoint, poll it on a schedule, skip what wa
   "receivers": [{ "type": "email" }]
 }
 ```
-Exact canonical names (see Wire). Sentiment min/max together = strong positive **or** strong negative. Novelty drops syndication duplicates.
+Sentiment min/max together = strong positive **or** strong negative. Novelty drops syndication duplicates.
 
 **Semantic Monitoring** — Watch a theme by meaning (not just a ticker) and push new matching passages to email and a webhook.
 ```json

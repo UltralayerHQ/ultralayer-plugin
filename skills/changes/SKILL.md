@@ -205,7 +205,7 @@ Chains worth more than a single call.
 1. `list_changes` — ticker + that release’s fiscal year and quarter, floor `0`. Everything that moved in the language.
 2. `list_guidance` — same ticker, for the figures the wording sits around.
 3. `list_guidance_outcomes` — how the period that just closed scored against the guide they set a quarter ago.
-4. Wire (legal company name) for how the tape read it; your own web search for the sell-side take.
+4. Wire for how the tape read it; your own web search for the sell-side take.
 
 **Comparability break → fix the model**
 1. `list_changes` — `metric_definition` and `reporting_structure`, market-wide, floor 0.7.
@@ -232,7 +232,7 @@ Chains worth more than a single call.
 ## Combine with
 
 - **`list_guidance`** — The outlook and how it was revised. Same ticker; match fiscal year / quarter to the report period on the guidance source (`source_metadata`, which needs `list_guidance` at `full`).
-- **Wire** — The headline. Use the official company name; tickers fail.
+- **Wire** — The headline.
 - **`semantic_search`** — Only if you need a point-in-time or utility-filtered passage.
 - **Alerts** — Alertable. Threshold counts changes; the alert owns the window. See **Workflow**. Wire remains the headline monitor.
 

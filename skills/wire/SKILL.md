@@ -192,11 +192,7 @@ Example: Lundbeck FDA Fast Track — `pr_newswire` item `novelty=new`, Reuters c
 
 `entities` is include-any.
 
-1. Match is **case-insensitive exact `canonical_name`**, not tickers, not aliases.
-2. Unknown names → **HTTP 422** with `unresolved_entities` + trigram `suggestions`. `TSLA` fails; suggestions may include `Tesla` — that is not necessarily the right company identity.
-3. Short names can resolve to the **wrong** registry row and return **empty `[]` with no error**. `"Tesla"` / `"Apple"` → `[]`; `"Tesla, Inc."` / `"Apple Inc."` → real hits.
-4. Copy `canonical_name` from a prior wire hit or `retrieve_entity`. Prefer `"easyJet plc"`, `"Nvidia Corporation"` when unsure.
-5. Pair with `entity_relevance` and `min_entity_sentiment` / `max_entity_sentiment`. When both sentiment bounds are set, `min` must be **greater than** `max` (directional OR: strong positive **or** strong negative).
+Pair with `entity_relevance` and `min_entity_sentiment` / `max_entity_sentiment`. When both sentiment bounds are set, `min` must be **greater than** `max` (directional OR: strong positive **or** strong negative).
 
 Sentiment bounds apply to the matching mention, not the whole item.
 
@@ -270,7 +266,7 @@ Example — multi-day geopolitics: seed linked through consecutive updates to a 
 | User intent | Approach |
 |-------------|----------|
 | “What’s moving markets right now?” | `list_wire` with novelty without duplicates, `min_importance_score` ≥ 0.5 |
-| “Any news on Company X?” | Resolve canonical name → entities + primary/significant → storyline on the best hit |
+| “Any news on Company X?” | `entities` + primary/significant → storyline on the best hit |
 | “Did guidance change?” | `categories: ["guidance","earnings"]`, then storyline |
 | “Is this a correction?” | `novelty: ["correction"]` or storyline and look for correction nodes |
 | “Who reported it first?” | Storyline with duplicates; earliest `new` / first_party press release is usually the root |
@@ -279,17 +275,14 @@ Example — multi-day geopolitics: seed linked through consecutive updates to a 
 
 1. Clarify scope (entity / sector / theme / time).
 2. `list_wire` with novelty `new|update|correction`, an importance floor, and the tightest true filters.
-3. If entity filter returns empty without 422, retry with a fuller canonical name.
-4. Pick the highest-importance hit → `wire_storyline` (add `duplicate` if coverage breadth matters).
-5. Brief from headlines + novelty path; escalate to your native web search tool (or the URL) for body text. Use `semantic_search` only for PIT windows or utility-filtered corpus hits.
+3. Pick the highest-importance hit → `wire_storyline` (add `duplicate` if coverage breadth matters).
+4. Brief from headlines + novelty path; escalate to your native web search tool (or the URL) for body text. Use `semantic_search` only for PIT windows or utility-filtered corpus hits.
 
 ---
 
 ## Limitations
 
 - No full article text on the public wire surface.
-- Entity filter is canonical-name exact; tickers/aliases fail or mis-resolve.
-- Duplicate short names in the registry can silently return empty results.
 - `publisher`, `industries`, and `categories` are messy real-world strings.
 - Storyline is shallow by design (linear ancestors + one hop of children).
 - Unfiltered `list_wire` is noisy — bias novelty + importance.
@@ -298,12 +291,6 @@ Example — multi-day geopolitics: seed linked through consecutive updates to a 
 ---
 
 ## FAQ
-
-**Q: `entities: ["Tesla"]` returned `[]` but Tesla news exists.**  
-A: Short name likely resolved to a different identity. Use `Tesla, Inc.` from a prior hit’s `entities[].canonical_name`. Empty array ≠ error; 422 only on unresolved names.
-
-**Q: Why did `TSLA` 422?**  
-A: Tickers are not resolved. Use suggestions only as hints, then confirm the canonical company name.
 
 **Q: Why doesn’t storyline show Bloomberg/FT copies?**  
 A: Default novelty drops `duplicate`. Add it explicitly.

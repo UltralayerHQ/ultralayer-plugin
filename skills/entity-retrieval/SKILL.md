@@ -5,7 +5,7 @@ description: Realtime context package for one entity — identity, recent high-r
 
 # Entity Retrieval
 
-`retrieve_entity` returns a realtime context package for one Ultralayer entity. Single required param: `entity` (case-insensitive **canonical name**). No time window, no `top_k` — the package shape is fixed.
+`retrieve_entity` returns a realtime context package for one Ultralayer entity. Single required param: `entity`. No time window, no `top_k` — the package shape is fixed.
 
 | Operation | Role |
 |-----------|------|
@@ -17,7 +17,6 @@ description: Realtime context package for one entity — identity, recent high-r
 
 **Use `retrieve_entity` when you need to:**
 - Bootstrap a company / person / commodity / country / institution briefing
-- Resolve the correct `canonical_name` + `entity_id` before Wire filters
 - Read 14-day mention sentiment without hand-rolling Wire aggregation
 - Discover who co-moves in the news with the target
 
@@ -35,12 +34,6 @@ description: Realtime context package for one entity — identity, recent high-r
 ```json
 { "entity": "Tesla, Inc." }
 ```
-
-**Resolve the name before Wire** — Get the exact registry name so later company watches don’t silently miss.
-```json
-{ "entity": "Nvidia Corporation" }
-```
-Then reuse `entity.canonical_name` exactly in `list_wire` entity filters.
 
 **Person → affiliated universe** — See which companies and projects dominate the news around a person.
 ```json
@@ -70,30 +63,12 @@ Use co-mentions (Iran, Hormuz, WTI) to choose Wire entity filters and semantic q
 
 | Section | Notes |
 |---------|-------|
-| `entity` | `entity_id`, `canonical_name`, `entity_type` — **copy `canonical_name` into Wire / later calls** |
+| `entity` | `entity_id`, `canonical_name`, `entity_type` |
 | `recent_wire_items` | Up to 5 teasers; novelty `new\|update\|correction`; entity is `primary` or `significant`; includes `wire_id` for storyline |
 | `sentiment_chart` | Exactly 14 UTC calendar-day bars, oldest → newest. Relevance-weighted mean ∈ [-1, 1], weighted std, `mention_count`. Empty days stay with `weighted_sentiment: null`. Current day is a partial bar. |
 | `co_mentions` | Top peers with `share` (fraction of recent high-relevance wire that also mentions them at primary/significant) |
 
 Requires sufficient recent wire activity; sparse entities return 422 `insufficient_entity_activity`.
-
----
-
-## Name resolution
-
-Match is **case-insensitive exact `canonical_name`**. Tickers and loose aliases are not resolved.
-
-| Input | Result |
-|-------|--------|
-| `"Tesla, Inc."` / `"tesla, inc."` | Success → root `Tesla, Inc.` |
-| `"Tesla"` / `"Apple"` / `"NVIDIA"` | Often resolves to a different sparse registry row → **422 `insufficient_entity_activity`** |
-| `"TSLA"` / numeric id as string | **422 `unresolved_entities`** + suggestions (can be noisy) |
-| `"Nividia Corporation"` (typo) | 422 + useful suggestion `"Nvidia Corporation"` |
-| `"OpenAI"`, `"SpaceX"`, `"Gold"`, `"Elon Musk"` | Success when that string **is** the canonical |
-
-Short brand names that look right can fail the activity gate because they hit the wrong identity. Prefer full legal-style names for listed cos (`"Apple Inc."`, `"Nvidia Corporation"`, `"easyJet plc"`). Best practice: take `canonical_name` from a prior Wire hit or a successful package and reuse it.
-
-Unknown names → `unresolved_entities` + `suggestions` (candidates to retry, not confirmed identities). Sparse-but-resolved names → `insufficient_entity_activity` with no suggestions — often means “wrong short name,” not “entity is quiet.”
 
 ---
 
@@ -114,15 +89,12 @@ Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Produc
 | User intent | Approach |
 |-------------|----------|
 | “Brief me on X” | Package → recent wires + sentiment turn + co-mentions |
-| “What’s the right entity name for Wire?” | Call here; reuse `canonical_name` exactly |
 | “Who is moving with oil / AI / this CEO?” | Read `co_mentions`; optionally package those peers |
 | “Is tape tone improving?” | Walk `sentiment_chart` with mention_count/std |
-| “Watch every mention going forward” | After resolving the name, use Wire (and alerts) |
+| “Watch every mention going forward” | Use Wire (and alerts) |
 
-1. Choose the best canonical guess (full legal-style name for listed companies).
-2. Call `retrieve_entity`. On `insufficient_entity_activity`, retry fuller forms before concluding the entity is quiet. On `unresolved_entities`, retry the best suggestion.
-3. Brief from: recent wires → sentiment turn → co-mentions.
-4. Hand off: Wire for monitoring/storylines; your native web search tool for ordinary evidence; `semantic_search` only for PIT or utility-filtered corpus hits.
+1. Call `retrieve_entity`. Brief from: recent wires → sentiment turn → co-mentions.
+2. Hand off: Wire for monitoring/storylines; your native web search tool for ordinary evidence; `semantic_search` only for PIT or utility-filtered corpus hits.
 
 ---
 
@@ -130,7 +102,7 @@ Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Produc
 
 - Realtime only — no as-of.
 - One entity per call.
-- Activity gate hides quiet names and punishes ambiguous short names.
+- Activity gate hides quiet names.
 - Public input is name only (passing `entity_id` as a string does not work).
 - Recent strip is fixed at 5 non-duplicate high-relevance items.
 - Co-mentions surface unmerged duplicate identities.
@@ -139,12 +111,6 @@ Works well for `COMPANY`, `PERSON`, `COMMODITY`, `COUNTRY`, `GOVERNMENT`. Produc
 ---
 
 ## FAQ
-
-**Q: Why does `"Tesla"` fail with `insufficient_entity_activity` but `"Tesla, Inc."` works?**  
-A: Short `"Tesla"` matches a different sparse registry entity. Same trap as Wire’s empty `[]` on short names — here it surfaces as an activity 422.
-
-**Q: Can I pass `TSLA` or the numeric `entity_id`?**  
-A: No. Tickers and id-strings → `unresolved_entities`. Use the canonical name.
 
 **Q: Why do SpaceX and “Space Exploration Technologies Corp.” both show as co-mentions?**  
 A: Incomplete entity merges. Treat as one org in the narrative unless you need registry fidelity.

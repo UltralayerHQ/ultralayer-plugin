@@ -29,7 +29,7 @@ description: Structured market narratives — impact-scored, source-cited develo
 - Realtime novelty-clustered headlines → Wire
 - PIT or utility-filtered corpus passages → `semantic_search`
 - A single-entity dossier → `retrieve_entity`
-- Exact entity-registry monitoring by `canonical_name` → Wire (developments use **tickers**, not Ultralayer entity ids)
+- Entity-filtered headline monitoring → Wire
 
 ---
 

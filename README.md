@@ -1,6 +1,6 @@
 # Ultralayer
 
-MCP server and agent skills for realtime financial intelligence.
+Realtime financial context for AI agents: what changed, why it matters, who is affected, and what to watch next.
 
 ## Links
 
@@ -11,7 +11,8 @@ MCP server and agent skills for realtime financial intelligence.
 ## What's included
 
 - **MCP server** at `https://api.ultralayer.ai/v0/mcp` (OAuth)
-- **Skills** for wire, semantic search, entity retrieval, developments and events, stakeholder identification, company guidance, filing changes, and alerts
+- **Agent skills** for using Ultralayer's market intelligence effectively
+- **Highlighted capabilities include** market news that separates new information from repeats, developments with company impact scores, broader event timelines, company outlooks, disclosure changes, stakeholder analysis, and alerts
 
 ## License
 

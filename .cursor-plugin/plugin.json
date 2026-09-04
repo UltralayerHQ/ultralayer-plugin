@@ -1,7 +1,7 @@
 {
   "name": "ultralayer",
-  "version": "1.2.1",
-  "description": "Ultralayer MCP server and agent skills",
+  "version": "2.2.1",
+  "description": "Realtime financial context for AI agents: what changed, why it matters, who is affected, and what to watch next.",
   "author": {
     "name": "Ultralayer",
     "url": "https://ultralayer.ai"

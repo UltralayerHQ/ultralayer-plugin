@@ -23,7 +23,6 @@ description: Daily market signal bars for a sector, country, or asset class. Ope
 
 **Do not use when you need:**
 - The headlines behind a move → `list_wire`
-- PIT or utility-filtered corpus passages → `semantic_search`
 - A company dossier or entity-specific sentiment → `retrieve_entity`
 - Ticker-level impact narratives → developments and events
 

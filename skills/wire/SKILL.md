@@ -25,7 +25,7 @@ The Wire is Ultralayer’s structured news firehose: short, fact-dense headlines
 - Build alert-ready conditions (same filter fields power `list_wire` alerts)
 
 **Do not use the Wire when you need:**
-- PIT or utility-filtered corpus passages → `semantic_search`
+- Open-web research (article body, quotes, filings, prices) → your native web search tool
 - A full entity package → `retrieve_entity`
 - Semantic “find similar stories by meaning” — `list_wire` is filter/recency, not embedding search
 
@@ -276,7 +276,7 @@ Example — multi-day geopolitics: seed linked through consecutive updates to a 
 1. Clarify scope (entity / sector / theme / time).
 2. `list_wire` with novelty `new|update|correction`, an importance floor, and the tightest true filters.
 3. Pick the highest-importance hit → `wire_storyline` (add `duplicate` if coverage breadth matters).
-4. Brief from headlines + novelty path; escalate to your native web search tool (or the URL) for body text. Use `semantic_search` only for PIT windows or utility-filtered corpus hits.
+4. Brief from headlines + novelty path; escalate to your native web search tool (or the URL) for body text.
 
 ---
 

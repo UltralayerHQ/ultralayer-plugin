@@ -25,7 +25,7 @@ description: Map a market situation to ranked public-company winners and losers 
 
 **Do not use when you need:**
 - Fast headline triage → Wire
-- PIT or utility-filtered corpus passages → `semantic_search`
+- Open-web research (article body, quotes, filings, prices) → your native web search tool
 - One company’s live dossier → `retrieve_entity`
 - Already-stored development packages → `search_developments` (SI creates fresh assessments; developments store prior ones)
 - Non-company stakeholders (countries, commodities, people, private cos) → out of scope (`PUBLIC_COMPANY` only)
@@ -163,7 +163,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 3. Choose realtime vs backfill. Warn about ~2 min wait.
 4. Call once; wait. On timeout, retry once — do not fan out parallel SI calls.
 5. Brief: top ± impacts → factor matrix highlights → cite 1–2 quotes per key name.
-6. Offer follow-ups via Wire / developments / `retrieve_entity` / semantic search using returned symbols.
+6. Offer follow-ups via Wire / developments / `retrieve_entity` / your native web search tool using returned symbols.
 
 ---
 
@@ -191,7 +191,7 @@ A: Treated as realtime.
 A: Not as structured stakeholders. They may appear in rationales/sources only.
 
 **Q: How do I continue after SI?**  
-A: Take symbols → Wire filters, `search_developments(stakeholder_symbol=…)`, `retrieve_entity`, or your native web search tool. Use `semantic_search` only for PIT or utility-filtered corpus passages.
+A: Take symbols → Wire filters, `search_developments(stakeholder_symbol=…)`, `retrieve_entity`, or your native web search tool.
 
 **Q: Empty / whitespace query?**  
 A: 422 `query must be a non-empty string.`

@@ -19,7 +19,7 @@ Every filter works **without a ticker list**, so this is a market-wide screen as
 
 **Use it for** the language, not the numbers: what this release says that last quarter’s did not, what they stopped mentioning, how a metric is now defined, how segments are cut, what the outlook assumes.
 
-**Not this tool:** the outlook figure or who raised / lowered → `list_guidance`. Guide vs actual → `list_guidance_outcomes`. Headlines, rumor, or what the market is reacting to → Wire. Anything outside an earnings press release → `semantic_search` or your own web search.
+**Not this tool:** the outlook figure or who raised / lowered → `list_guidance`. Guide vs actual → `list_guidance_outcomes`. Headlines, rumor, or what the market is reacting to → Wire. Anything outside an earnings press release → your own web search.
 
 ---
 
@@ -233,7 +233,6 @@ Chains worth more than a single call.
 
 - **`list_guidance`** — The outlook and how it was revised. Same ticker; match fiscal year / quarter to the report period on the guidance source (`source_metadata`, which needs `list_guidance` at `full`).
 - **Wire** — The headline.
-- **`semantic_search`** — Only if you need a point-in-time or utility-filtered passage.
 - **Alerts** — Alertable. Threshold counts changes; the alert owns the window. See **Workflow**. Wire remains the headline monitor.
 
 ---

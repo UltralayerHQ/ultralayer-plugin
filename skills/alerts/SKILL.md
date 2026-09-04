@@ -20,7 +20,7 @@ Alerts wrap an existing Ultralayer endpoint, poll it on a schedule, skip what wa
 ## When to use
 
 **Use alerts when you need:**
-- Continuous monitoring of Wire, semantic search, developments, filings, or events
+- Continuous monitoring of Wire, developments, filings, events, or any other alertable path
 - Delivery to inbox, Telegram, or a webhook without running your own cron
 - The same conditions you already validated interactively, left running
 
@@ -182,7 +182,7 @@ Discover `event_id` via `search_events` or a development hit first.
 | `/v0/filings/list_changes` | Wording changes in the window |
 | `/v0/filings/list_guidance_outcomes` | Company guidance versus the reported actual |
 
-Wire for headlines. Developments/events for structured lifecycle. Semantic search for thematic language. `list_guidance` for the official outlook and revision. `list_changes` for wording changes between releases. `list_guidance_outcomes` for guide versus actual.
+Wire for headlines. Developments/events for structured lifecycle. Thematic / corpus passage monitors use path `/v0/search/semantic_search`. `list_guidance` for the official outlook and revision. `list_changes` for wording changes between releases. `list_guidance_outcomes` for guide versus actual.
 
 ---
 

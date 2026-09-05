@@ -9,7 +9,7 @@ Alerts wrap an existing Ultralayer endpoint, poll it on a schedule, skip what wa
 
 | Operation | Role |
 |-----------|------|
-| `create_alert` | Validate endpoint + receivers (delivers a sample), then persist |
+| `create_alert` | Validate + persist, return the created alert |
 | `get_alerts` | List alerts with recent attempts and deliveries |
 | `activate_alert` / `deactivate_alert` | `active` ↔ `paused` |
 | `execute_alert` | Run now (same path as scheduled execution) |

@@ -13,6 +13,8 @@ description: Map a market situation to ranked public-company winners and losers 
 
 **Latency:** commonly ~2 minutes. Budget for that. Do not treat timeouts as “empty universe.” Do not spam parallel calls.
 
+**Approval for Agents:** If a user is waiting on this turn (chat), tell them it takes ~2 minutes and get explicit approval before calling. If no one is waiting (one-shot / autonomous / unattended), call and wait.
+
 ---
 
 ## When to use
@@ -160,7 +162,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 
 1. Confirm the user wants situation → public-company exposure.
 2. Craft a specific `query`; add `context` / `instructions` only when they sharpen the job.
-3. Choose realtime vs backfill. Warn about ~2 min wait.
+3. Get approval if applicable: If you are an interactive chat agent, and there is a user waiting, get approval for the ~2 min wait before calling.
 4. Call once; wait. On timeout, retry once — do not fan out parallel SI calls.
 5. Brief: top ± impacts → factor matrix highlights → cite 1–2 quotes per key name.
 6. Offer follow-ups via Wire / developments / `retrieve_entity` / your native web search tool using returned symbols.

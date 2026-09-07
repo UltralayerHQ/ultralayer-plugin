@@ -1,5 +1,7 @@
 # Ultralayer
 
+[![smithery badge](https://smithery.ai/badge/ultralayer/ultralayer-v0)](https://smithery.ai/servers/ultralayer/ultralayer-v0)
+
 Realtime financial context for AI agents: what changed, why it matters, who is affected, and what to watch next.
 
 ## Links

@@ -2,7 +2,7 @@
 
 [![smithery badge](https://smithery.ai/badge/ultralayer/ultralayer-v0)](https://smithery.ai/servers/ultralayer/ultralayer-v0)
 
-Realtime financial context for AI agents: what changed, why it matters, who is affected, and what to watch next.
+Realtime financial context for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.
 
 ## Links
 

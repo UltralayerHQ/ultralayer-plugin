@@ -2,8 +2,8 @@
     "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
     "name": "io.github.UltralayerHQ/ultralayer",
     "title": "Ultralayer",
-    "description": "Realtime financial context for AI agents: what changed, why it matters, and who is affected.",
-    "version": "3.0.1",
+    "description": "Realtime market intelligence: news, events, guidance, filing diffs, stakeholders, sentiment, alerts",
+    "version": "3.0.2",
     "websiteUrl": "https://ultralayer.ai",
     "repository": {
       "url": "https://github.com/UltralayerHQ/ultralayer-plugin",

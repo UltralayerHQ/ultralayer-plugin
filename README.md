@@ -15,9 +15,31 @@ Realtime financial context for AI agents: what changed, who is affected, and wha
 
 ## What's included
 
-- **MCP server** at `https://api.ultralayer.ai/v0/mcp` (OAuth)
+- **MCP server** at `https://api.ultralayer.ai/v0/mcp` (OAuth/API key)
 - **Agent skills** for using Ultralayer's market intelligence effectively
 - **Highlighted capabilities include** market news that separates new information from repeats, developments with company impact scores, broader event timelines, company outlooks, disclosure changes, stakeholder analysis, and alerts
+
+## Connect
+
+Ultralayer supports both OAuth and API key. Choose how you connect.
+
+**OAuth.** Sign in in the browser.
+
+**API key.** Create a key at [console.ultralayer.ai](https://console.ultralayer.ai) and send it as a bearer token:
+
+```json
+{
+  "mcpServers": {
+    "ultralayer-v0": {
+      "type": "http",
+      "url": "https://api.ultralayer.ai/v0/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
 
 ## License
 

@@ -1,5 +1,8 @@
 # Ultralayer
 
+[![Glama](https://img.shields.io/badge/Glama-listed-blue)](https://glama.ai/mcp/connectors/io.github.UltralayerHQ/ultralayer)
+[![MCP Registry](https://img.shields.io/badge/MCP%20Registry-listed-blue)](https://registry.modelcontextprotocol.io/?q=io.github.UltralayerHQ%2Fultralayer)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![smithery badge](https://smithery.ai/badge/ultralayer/ultralayer-v0)](https://smithery.ai/servers/ultralayer/ultralayer-v0)
 
 Realtime financial context for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.

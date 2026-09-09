@@ -78,7 +78,7 @@ Sentiment min/max together = strong positive **or** strong negative. Novelty dro
   "name": "Tesla Developments",
   "path": "/v0/search/search_developments",
   "arguments": {
-    "stakeholder_symbol": "TSLA",
+    "symbols": ["TSLA"],
     "min_importance_score": 0.7,
     "limit": 20,
     "detail": "full"

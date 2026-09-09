@@ -157,7 +157,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 | “Who wins/loses if X?” | Realtime SI on a precise query; brief from impact extremes + factor matrix |
 | “As of date D, who mattered?” | Same query + past `end_timestamp` |
 | “Keep it short / sector-focused” | Put constraints in `instructions` |
-| “Drill one ticker after SI” | `retrieve_entity`, Wire, or developments with `stakeholder_symbol` |
+| “Drill one ticker after SI” | `retrieve_entity`, Wire, or developments with `symbols` |
 | “Just give me headlines” | Wire — do not pay SI latency for firehose |
 
 1. Confirm the user wants situation → public-company exposure.
@@ -193,7 +193,7 @@ A: Treated as realtime.
 A: Not as structured stakeholders. They may appear in rationales/sources only.
 
 **Q: How do I continue after SI?**  
-A: Take symbols → Wire filters, `search_developments(stakeholder_symbol=…)`, `retrieve_entity`, or your native web search tool.
+A: Take symbols → Wire filters, `search_developments(symbols=…)`, `retrieve_entity`, or your native web search tool.
 
 **Q: Empty / whitespace query?**  
 A: 422 `query must be a non-empty string.`

@@ -38,7 +38,7 @@ description: Structured market narratives — impact-scored, source-cited develo
 **Ticker blast radius** — Find developments that hit a ticker hard in either direction, with signed impacts and quotes.
 ```json
 {
-  "stakeholder_symbol": "TSLA",
+  "symbols": ["TSLA"],
   "min_impact_score": 0.5,
   "max_impact_score": -0.5,
   "limit": 8
@@ -48,9 +48,18 @@ description: Structured market narratives — impact-scored, source-cited develo
 **Negative for one ticker** — Isolate clearly negative impact on a single name.
 ```json
 {
-  "stakeholder_symbol": "GOOGL",
+  "symbols": ["GOOGL"],
   "max_impact_score": -0.5,
   "limit": 8
+}
+```
+
+**Portfolio watchlist** — One query for up to eight tickers instead of one call per name.
+```json
+{
+  "symbols": ["AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA", "AVGO"],
+  "min_importance_score": 0.7,
+  "limit": 10
 }
 ```
 
@@ -168,7 +177,7 @@ Levels: `full` | `standard` | `essential`.
 
 ```json
 {
-  "stakeholder_symbol": "TSLA",
+  "symbols": ["TSLA"],
   "min_impact_score": 0.5,
   "max_impact_score": -0.5,
   "limit": 8,
@@ -198,7 +207,7 @@ Returns development packages shaped by `detail` (default `full`; prefer `standar
 | Param | Notes |
 |-------|-------|
 | `query` | Optional. Max 2000 chars. |
-| `stakeholder_symbol` | **Exact ticker** as stored (`TSLA`, `GOOGL`, `SGRO.L`). Max 8 chars. `tsla` → `[]`. Not Ultralayer canonical names. |
+| `symbols` | Tickers, max 8. Match any. **Exact** as stored (`TSLA`, `GOOGL`, `SGRO.L`). `tsla` → `[]`. Not Ultralayer canonical names. |
 | `min_impact_score` / `max_impact_score` | Alone: threshold. **Together: directional OR** (`impact >= min OR impact <= max`) — requires `min >= max` (e.g. `0.5` + `-0.5`). |
 | `min_importance_score` / `min_surprise_score` / `min_confidence_score` | Importance ~0.8+ is a strong desk filter |
 | `development_type` | Exact free-form string (`financial_update`, `corporate_action`, `geopolitical_security`, …). Invented values silently return `[]`. Discover types from results. |
@@ -232,6 +241,7 @@ Timestamp filters gate on **development activity**: an older event still appears
 | Param | Notes |
 |-------|-------|
 | `query` | Optional. Max 2000 chars. |
+| `symbols` | Tickers, max 8. Match any. Exact as stored. Gates events via development stakeholder involvement; does not filter embedded `recent_developments`. |
 | `event_type` | Exact free-form (`merger_acquisition`, `earnings`, `product_launch`, `executive_succession`, …) |
 | `limit` | Default 5, max 10 |
 | `developments_per_event` | Default 3, max 5, **0 allowed** (event cards only — cheap scanning) |
@@ -264,7 +274,7 @@ Missing event → 404.
 | “Who is affected by X?” | `search_developments` → read stakeholder impacts; cite quotes |
 | “What’s the Tesla earnings story this year?” | `search_developments` or `search_events` → take `event_id` → `retrieve_event_developments` |
 | “Any big M&A?” | `search_events` with `event_type: merger_acquisition` |
-| “Negative for GOOGL?” | `stakeholder_symbol: GOOGL`, `max_impact_score: -0.5` |
+| “Negative for GOOGL?” | `symbols: ["GOOGL"]`, `max_impact_score: -0.5` |
 | “What just printed that’s important?” | No-query search + `min_importance_score: 0.8` |
 | “Headline triage / first print” | Wire first; escalate here for structured impact |
 | “Reconstruct this development as of T” | `retrieve_development` with `end_timestamp` |
@@ -303,7 +313,7 @@ A: Earnings prints are often typed `financial_update`; `earnings` appears more a
 A: Filter is on `occurrence_timestamp` vs now, not on status label. Past-dated schedules remain.
 
 **Q: Can I filter by Ultralayer entity name `Tesla, Inc.`?**  
-A: No. Use `stakeholder_symbol: "TSLA"` or semantic query text.
+A: No. Use `symbols: ["TSLA"]` or semantic query text.
 
 **Q: search_events with a July window returned an older long-running event — bug?**  
 A: Timestamps gate development activity. Old events with new developments in-window correctly appear.

@@ -10,7 +10,21 @@
   "repository": "https://github.com/UltralayerHQ/ultralayer-plugin",
   "license": "MIT",
   "keywords": ["finance", "mcp", "news", "earnings", "guidance", "alerts", "sentiment", "events", "equities", "market", "headlines", "stakeholders", "realtime"],
-  "logo": "assets/logo.png",
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json"
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Ultralayer",
+    "shortDescription": "Realtime market intelligence",
+    "longDescription": "Ultralayer gives ChatGPT realtime financial context: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Output is information-efficient, with evidence for every result. Market news is filtered for novelty so you can tell new information from stories the market already has. Events are compact packages covering what happened, which public companies are exposed, and the evidence. Official outlooks are structured as they are published so you can compare guidance across companies, read revision history, and check outlooks against reported results. Filing changes in earnings releases are structured and queryable. Any of these can be turned into an alert by email, Telegram, or webhook. Point-in-time safety is first-class, so backtests stay honest. Pairs well with web search and a market-data API. All data is our own. Ultralayer does not provide financial advice.",
+    "developerName": "Ultralayer",
+    "category": "Finance",
+    "websiteURL": "https://ultralayer.ai",
+    "defaultPrompt": [
+      "Alert me by email when there's important news about my portfolio.",
+      "What market events should I watch over the next week?",
+      "Did any of my holdings quietly change important language in their recent earnings releases?"
+    ],
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
+  }
 }

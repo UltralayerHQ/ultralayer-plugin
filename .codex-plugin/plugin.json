@@ -20,7 +20,7 @@
     "category": "Finance",
     "websiteURL": "https://ultralayer.ai",
     "defaultPrompt": [
-      "Alert me by email when there's important news about my portfolio.",
+      "Alert me by email when there's a new development impacting my portfolio.",
       "What market events should I watch over the next week?",
       "Did any of my holdings quietly change important language in their recent earnings releases?"
     ],

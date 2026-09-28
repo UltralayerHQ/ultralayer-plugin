@@ -1,7 +1,7 @@
 {
   "name": "ultralayer",
   "version": "3.0.2",
-  "description": "Realtime financial context for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
+  "description": "Realtime market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
   "author": {
     "name": "Ultralayer",
     "url": "https://ultralayer.ai"
@@ -15,12 +15,12 @@
   "interface": {
     "displayName": "Ultralayer",
     "shortDescription": "Realtime market intelligence",
-    "longDescription": "Realtime financial context for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
+    "longDescription": "Realtime market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
     "developerName": "Ultralayer",
     "category": "Finance",
     "websiteURL": "https://ultralayer.ai",
     "defaultPrompt": [
-      "Alert me by email when there's a new development impacting my portfolio.",
+      "Alert me by email when there's important news about my portfolio.",
       "What market events should I watch over the next week?",
       "Did any of my holdings quietly change important language in their recent earnings releases?"
     ],

@@ -1,6 +1,6 @@
 ---
 name: stock-screening
-description: Screen public companies by exposure to a theme, event or trend described in plain language, combined with ordinary screener filters (country, market cap, valuation, growth, performance), returning ranked tickers with signed exposure scores, rationales and cited quotes. Operation is screen_stocks.
+description: Screen public companies by exposure to a theme, event or trend described in plain language, combined with ordinary screener filters (country, market cap, valuation, growth, performance). Operation is screen_stocks.
 ---
 
 # Stock screening

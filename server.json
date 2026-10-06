@@ -3,7 +3,7 @@
     "name": "io.github.UltralayerHQ/ultralayer",
     "title": "Ultralayer",
     "description": "Realtime market intelligence: news, events, guidance, filing diffs, stakeholders, sentiment, alerts",
-    "version": "3.0.2",
+    "version": "3.1.0",
     "websiteUrl": "https://ultralayer.ai",
     "repository": {
       "url": "https://github.com/UltralayerHQ/ultralayer-plugin",

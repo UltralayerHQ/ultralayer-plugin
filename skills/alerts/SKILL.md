@@ -52,26 +52,6 @@ Alerts wrap an existing Ultralayer endpoint, poll it on a schedule, skip what wa
 ```
 Sentiment min/max together = strong positive **or** strong negative. Novelty drops syndication duplicates.
 
-**Semantic Monitoring** — Watch a theme by meaning (not just a ticker) and push new matching passages to email and a webhook.
-```json
-{
-  "name": "Hormuz Oil Passages",
-  "path": "/v0/search/semantic_search",
-  "arguments": {
-    "queries": ["Strait of Hormuz tanker disruption Brent crude"],
-    "max_tokens": 1000,
-    "min_utility_score": 0.5,
-    "min_cosine_similarity": 0.75,
-    "detail": "standard"
-  },
-  "interval_minutes": 30,
-  "receivers": [
-    { "type": "email" },
-    { "type": "webhook", "url": "https://hooks.example.com/ultralayer" }
-  ]
-}
-```
-
 **Ticker development feed** — Get pinged when important new developments land for a ticker, with who is affected already scored.
 ```json
 {
@@ -174,7 +154,6 @@ Discover `event_id` via `search_events` or a development hit first.
 | `path` | What you’re monitoring |
 |--------|------------------------|
 | `/v0/search/list_wire` | Filtered headlines |
-| `/v0/search/semantic_search` | PIT / utility-filtered corpus passages |
 | `/v0/search/search_developments` | Structured developments |
 | `/v0/search/search_events` | Events with recent activity |
 | `/v0/search/retrieve_event_developments` | Developments on a known `event_id` |
@@ -182,7 +161,7 @@ Discover `event_id` via `search_events` or a development hit first.
 | `/v0/filings/list_changes` | Wording changes in the window |
 | `/v0/filings/list_guidance_outcomes` | Company guidance versus the reported actual |
 
-Wire for headlines. Developments/events for structured lifecycle. Thematic / corpus passage monitors use path `/v0/search/semantic_search`. `list_guidance` for the official outlook and revision. `list_changes` for wording changes between releases. `list_guidance_outcomes` for guide versus actual.
+Wire for headlines. Developments/events for structured lifecycle. `list_guidance` for the official outlook and revision. `list_changes` for wording changes between releases. `list_guidance_outcomes` for guide versus actual.
 
 ---
 

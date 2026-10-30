@@ -130,11 +130,11 @@ Filterable fields: `country`, `exchange`, `sector`, `industry`, `market_cap_basi
 
 | Level | What you get |
 |-------|--------------|
-| `essential` | `results[]` with name, symbol, `exposure_score`, `exposure_type`, `rationale` |
-| `standard` | essential + `criterion` + `quant_filters` + `quant_filter_match_count` + citable sources (URL, timestamp; no quotes) |
-| `full` | standard + source quotes, `score_rubric`, `exposure_types`, `quant_sort`, per-company `market_data` |
+| `essential` | `results[]` with name, symbol, `exposure_score`, `exposure_type`, `rationale`, and `market_data` with market cap only |
+| `standard` | essential + `criterion` + `quant_filters` + `quant_filter_match_count` + citable sources (URL, timestamp; no quotes) + `market_data` with five fields: market cap, P/E, dividend yield, YTD and 1-year performance |
+| `full` | standard + source quotes, `score_rubric`, `exposure_types`, `quant_sort`, and every `market_data` field |
 
-**Prefer `standard`.** It shows which filters were actually applied and how many companies passed them, which is enough to diagnose an empty or odd result. **Use `full`** when you need per-result market data (to sort or filter yourself), source quotes, the score rubric or `quant_sort`.
+**Prefer `standard`.** It shows which filters were actually applied and how many companies passed them, which is enough to diagnose an empty or odd result. **Use `full`** when you need the other market data fields (country, sector, growth, margin, 1-month performance, debt/equity) to sort or filter yourself, source quotes, the score rubric or `quant_sort`.
 
 ---
 
@@ -154,7 +154,7 @@ Filterable fields: `country`, `exchange`, `sector`, `industry`, `market_cap_basi
 - `exposure_type`: usually one of `exposure_types`, occasionally a new label when none fit.
 - `rationale`: one or two sentences, backed by the cited sources.
 - `sources_with_quotes[]`: `url`, `source_timestamp`, and (in `full`) exact `quotes`. Check `source_timestamp` to judge how fresh the evidence is.
-- `market_data` (`full` only; `null` when no filter ran): country, sector, industry, exchange, market cap, P/E, growth, margin, performance, value traded, debt/equity. Current values, usable for your own sort or second-pass filter.
+- `market_data` (returned whether or not a filter ran; `null` for a company with no matching listing): at `full`, country, sector, industry, exchange, market cap, P/E, dividend yield, growth, margin, performance, value traded, debt/equity; at `standard`, market cap, P/E, dividend yield, YTD and 1-year performance; at `essential`, market cap only. Current values, rounded to 2 decimals, usable for your own sort or second-pass filter.
 
 Results are ordered by absolute `exposure_score`, strongest first, so winners and losers are interleaved.
 
@@ -190,12 +190,12 @@ Fix: add what the companies should be exposed to (“high dividend US utilities 
 | “Which stocks are exposed to X?” | Theme-only query, `standard` |
 | “Small caps / in country Y exposed to X” | Theme + explicit numeric bounds, `standard`; verify `quant_filters` |
 | “Winners and losers from X” | Say both sides in the query; raise `limit` |
-| “Rank them by performance / valuation” | Screen with `full`, then sort `market_data` yourself |
+| “Rank them by performance / valuation” | Screen with `standard` (market cap, P/E, dividend yield, YTD, 1Y) or `full` (every field), then sort `market_data` yourself |
 | “Is ticker T exposed to X?” | Screen X and look for T; absence is not evidence of no exposure |
 | “Deep dive on a specific event, or as of a past date” | `identify_stakeholders` |
 
 1. Write one sentence: mechanism + direction + only the constraints that matter, with explicit numbers.
-2. Call once. Use `standard`, or `full` if you need market data or quotes.
+2. Call once. Use `standard`, or `full` if you need quotes or market data beyond the five standard fields.
 3. Read `criterion` and `quant_filters` to confirm the screen is the one intended. If not, reword and call again.
 4. Brief from the top of `results`: score, exposure type, rationale, one quote for key names.
 5. Follow up on chosen symbols with `retrieve_entity`, `search_developments(symbols=…)`, Wire, or your native web search tool.
@@ -220,13 +220,13 @@ Fix: add what the companies should be exposed to (“high dividend US utilities 
 A: Screening is fast, takes screener filters, and reads stored evidence across many past assessments. `identify_stakeholders` runs a fresh ~2 minute assessment of one situation with live retrieval, a factor matrix, steering inputs and backtest mode.
 
 **Q: I asked for results sorted by 1-month performance and they are not.**
-A: Results are always ordered by absolute exposure score. Sort on `market_data` in a `full` response.
+A: Results are always ordered by absolute exposure score. Sort on `market_data` yourself: YTD and 1-year performance are in `standard`, 1-month performance only in `full`.
 
 **Q: Why did I get fewer than `limit`?**
 A: `limit` is a ceiling. Only companies with supporting evidence that also pass every filter are returned.
 
 **Q: Why is `market_data` null?**
-A: No screener filter ran. Add a constraint (for example a country or a market-cap bound) to get it.
+A: That company's ticker matched no listing in the market data (rare, mostly non-US tickers). No filter is needed to get it, and every detail level carries it (`essential` with market cap only).
 
 **Q: Can I screen on fundamentals alone?**
 A: No. A query with filters only and no theme is rejected with a 422 (`no_exposure_theme`) and not charged. Add a theme; the filters then narrow the universe it is screened over.

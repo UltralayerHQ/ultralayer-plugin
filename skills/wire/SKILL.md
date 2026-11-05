@@ -22,7 +22,7 @@ The Wire is Ultralayer’s structured news firehose: short, fact-dense headlines
 - Deduplicate the firehose via `novelty` (`new` / `update` vs `duplicate`)
 - Reconstruct how a story evolved (updates, corrections, cross-publisher copies)
 - Backtest a window with `start_timestamp` / `end_timestamp`
-- Build alert-ready conditions (same filter fields power `list_wire` alerts)
+- Build alert-ready conditions (wire alerts take the same filter fields, minus timestamps)
 
 **Do not use the Wire when you need:**
 - Open-web research (article body, quotes, filings, prices) → your native web search tool
@@ -302,4 +302,4 @@ A: Ancestry was truncated by time window or `max_ancestor_depth`. Widen `start_t
 A: `list_wire` sorts by `source_timestamp` desc, not `wire_id`. Filtration still uses `timestamp`.
 
 **Q: list_wire vs alerts?**  
-A: Same filter vocabulary. The Wire is the pull API; alerts can poll `list_wire` conditions on a schedule.
+A: Same filter vocabulary. The Wire is the pull API; a wire alert matches each new item against those conditions as it lands and delivers it.

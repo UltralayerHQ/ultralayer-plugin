@@ -225,7 +225,7 @@ Chains worth more than a single call.
 3. Wire or your own web search — confirm whether the case settled, the KPI moved into a table, or the risk simply went unmentioned.
 
 **Leave it running**
-`create_alert` with `path: "/v0/filings/list_changes"`, same filters minus timestamps. `metric_definition` + `reporting_structure` at a high floor is a low-noise, high-value inbox; pin `detail` and `min_materiality_score`.
+`create_alert` with `conditions.source: "changes"` and the same filters minus timestamps and fiscal period. `metric_definition` + `reporting_structure` at a high floor is a low-noise, high-value inbox. `min_materiality_score` defaults to 0.4, as on `list_changes`. See the alerts skill.
 
 ---
 
@@ -233,7 +233,7 @@ Chains worth more than a single call.
 
 - **`list_guidance`** — The outlook and how it was revised. Same ticker; match fiscal year / quarter to the report period on the guidance source (`source_metadata`, which needs `list_guidance` at `full`).
 - **Wire** — The headline.
-- **Alerts** — Alertable. Threshold counts changes; the alert owns the window. See **Workflow**. Wire remains the headline monitor.
+- **Alerts** — Alertable as source `changes`; each new matching change is delivered as it lands. See **Workflow**. Wire remains the headline monitor.
 
 ---
 

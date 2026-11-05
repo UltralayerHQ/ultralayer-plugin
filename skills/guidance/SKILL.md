@@ -351,7 +351,7 @@ Chains worth more than a single call.
 3. `guidance_bias` — with `end_timestamp` at each decision date, so the score only knows prior reports.
 
 **Leave it running**
-`create_alert` on `list_guidance` (revisions) or `list_guidance_outcomes` (beats and misses), arguments minus timestamps — the alert owns the window. Keep `values_mode: "all"` so each delivery carries the prior print to compare against.
+`create_alert` with `conditions.source: "guidance"` (revisions) or `"guidance_outcomes"` (beats and misses). A guidance delivery is the whole series with its revision history, so the prior print comes with it. Standing conditions do not pin fiscal year, quarter, or period end. See the alerts skill.
 
 ---
 
@@ -359,7 +359,7 @@ Chains worth more than a single call.
 
 - **Wire / developments** — Why it matters. Wire wants the legal name (`Nvidia Corporation`), not `NVDA`.
 - **`list_changes`** — How they wrote the release. Same ticker; match the document’s fiscal period from `source_metadata` (`list_guidance` at `full`).
-- **Alerts** — `list_guidance` and `list_guidance_outcomes` only; `guidance_bias` is not alertable. See **Workflow**.
+- **Alerts** — Sources `guidance` and `guidance_outcomes`; `guidance_bias` is not alertable. See **Workflow**.
 
 ---
 

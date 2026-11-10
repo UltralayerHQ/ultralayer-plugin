@@ -15,6 +15,8 @@ description: Map a market situation to ranked public-company winners and losers 
 
 **Approval for Agents:** If a user is waiting on this turn (chat), tell them it takes ~2 minutes and get explicit approval before calling. If no one is waiting (one-shot / autonomous / unattended), call and wait.
 
+**Plan:** Standard or Pro.
+
 ---
 
 ## When to use

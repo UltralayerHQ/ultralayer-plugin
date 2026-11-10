@@ -19,6 +19,8 @@ description: Official company outlooks, how they revised, how they compared to t
 
 Every filter works **without a ticker list**, so these are cross-sectional screens as much as single-name lookups: who moved an outlook today, which peers guide the same period, who missed their own guide this cycle. `end_timestamp` rebuilds any of it as of a past day, so a screen can be backtested.
 
+**Plan:** Pro.
+
 ---
 
 ## When to use

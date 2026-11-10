@@ -11,6 +11,8 @@ description: Realtime context package for one entity — identity, recent high-r
 |-----------|------|
 | `retrieve_entity` | Realtime dossier for one entity |
 
+**Plan:** every plan.
+
 ---
 
 ## When to use

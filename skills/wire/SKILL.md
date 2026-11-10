@@ -12,6 +12,8 @@ The Wire is Ultralayer’s structured news firehose: short, fact-dense headlines
 | `list_wire` | Filter + return the most recent matching wire items |
 | `wire_storyline` | Expand one item into its novelty ancestor chain + first-degree branches |
 
+**Plan:** every plan.
+
 ---
 
 ## When to use

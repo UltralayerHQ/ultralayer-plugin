@@ -13,6 +13,8 @@ description: Screen public companies by exposure to a theme, event or trend desc
 
 **Latency:** typically 20–30 seconds.
 
+**Plan:** Standard or Pro.
+
 ---
 
 ## When to use

@@ -14,6 +14,8 @@ description: Structured market narratives — impact-scored, source-cited develo
 | `search_events` | Semantic or filter search over events; embeds recent development summaries |
 | `retrieve_event_developments` | Event metadata + developments timeline |
 
+**Plan:** every plan.
+
 ---
 
 ## When to use

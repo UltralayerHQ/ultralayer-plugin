@@ -11,6 +11,8 @@ description: Daily market signal bars for a sector, country, or asset class. Ope
 |-----------|------|
 | `market_signal` | Attention and net sentiment bars for one sector, country, or asset class |
 
+**Plan:** Standard or Pro.
+
 ---
 
 ## When to use

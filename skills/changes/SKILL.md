@@ -13,6 +13,8 @@ description: Wording changes between one earnings press release and the last —
 
 Every filter works **without a ticker list**, so this is a market-wide screen as much as a single-filing read: who redefined a metric this quarter, who rewrote what the outlook assumes, who quietly dropped a risk. The material change is usually the one nobody headlined.
 
+**Plan:** Pro.
+
 ---
 
 ## When to use

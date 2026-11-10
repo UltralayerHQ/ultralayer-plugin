@@ -21,6 +21,16 @@ Realtime financial context for AI agents: what changed, who is affected, and wha
 - **Agent skills** for using Ultralayer's market intelligence effectively
 - **Highlighted capabilities include** market news that separates new information from repeats, developments with company impact scores, broader event timelines, company outlooks, disclosure changes, stakeholder analysis, and alerts
 
+## Plans
+
+Free to start, pay as you go. Subscribe to unlock more tools.
+
+- **Pay as you go:** market news, story threads, developments, events, and company profiles.
+- **Standard:** adds real-time alerts, the stock screener, winners and losers, and market signals.
+- **Pro:** adds company guidance, guide versus actual, guidance track record, management language changes, and filings alerts.
+
+New accounts get $0.50 of free credit. See [pricing](https://ultralayer.ai/pricing).
+
 ## Connect
 
 Ultralayer supports both OAuth and API key. Choose how you connect.

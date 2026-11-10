@@ -23,6 +23,10 @@ Alerts arrive by email, on Telegram, or at a webhook, which connects them to you
 
 An active alert costs $0.007 an hour, about $5 a month, plus a small charge for what it delivers: $0.001 per 10 news items, outlooks, results, or filing changes, and $0.01 per development. A paused alert costs nothing. If a delivery reaches none of your destinations, its charge is refunded.
 
+### Plan
+
+News and development alerts need Standard or Pro. Outlook, results, and filing-change alerts need Pro.
+
 ### How to start
 
 Ask your AI something like "Set up an alert that emails me when Apple has important news with a strongly positive or negative tone." It turns that into the alert's settings, sends a test message to confirm the delivery works, and starts watching. You can pause, resume, or delete an alert at any time.
@@ -221,7 +225,7 @@ A: No. Create and activate both start the match clock at that moment. Nothing fr
 A: Receiver verification delivers a sample with `"response": []` by design, so a bad receiver fails before you are charged.
 
 **Q: No deliveries for hours — is it broken?**  
-A: Usually not: an alert sends only when a new row matches, and narrow conditions can stay quiet for a long time. Check `get_alerts`. If the status is `paused` with an `insufficient_credit` attempt, top up and activate it again.
+A: Usually not: an alert sends only when a new row matches, and narrow conditions can stay quiet for a long time. Check `get_alerts`. If the status is `paused` with an `insufficient_credit` attempt, add credit and activate it again.
 
 **Q: How do I change an alert’s filters?**  
 A: There is no patch. Delete and recreate. Pause instead of delete if you may want the old one back.

@@ -1,6 +1,6 @@
 {
   "name": "ultralayer",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Realtime market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
   "author": {
     "name": "Ultralayer",
@@ -10,7 +10,7 @@
   "repository": "https://github.com/UltralayerHQ/ultralayer-plugin",
   "license": "MIT",
   "keywords": ["finance", "mcp", "news", "earnings", "guidance", "alerts", "sentiment", "events", "equities", "market", "headlines", "stakeholders", "realtime"],
-  "logo": "assets/logo.png",
+  "privacyPolicyUrl": "https://ultralayer.ai/privacy",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
 }

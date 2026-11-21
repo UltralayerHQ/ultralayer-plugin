@@ -150,7 +150,7 @@ Each item is a compact decision object. Headlines are usually one dense sentence
 | `headline` | Primary content |
 | `wire_id` | Pass to `wire_storyline` |
 | `timestamp` | Wire clock — **filters** use this |
-| `source_timestamp` | Publisher time — **list_wire sorts by this descending** |
+| `source_timestamp` | When the information became publicly available, as best Ultralayer can establish — **list_wire sorts by this descending** |
 | `novelty` + `prior_wire_id` | Cluster membership. `new` usually has `prior_wire_id: null` |
 | `importance_score` / `trustworthiness_score` | 0–1 |
 | `factuality` | `confirmed` / `reported` / `rumor` / `speculation` / `forecast` |

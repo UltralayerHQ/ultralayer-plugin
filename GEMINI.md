@@ -1,6 +1,6 @@
 # Ultralayer
 
-Realtime market intelligence through the `ultralayer-v0` MCP server. Best used alongside web search. The skills in `skills/` explain each tool.
+Real-time stock market intelligence through the `ultralayer-v0` MCP server. Best used alongside web search. The skills in `skills/` explain each tool.
 
 - Headlines or upcoming items: `list_wire`. Follow a story: `wire_storyline`.
 - Events: `search_events`, then `retrieve_event_developments`. Impact on a ticker: `search_developments`.

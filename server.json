@@ -1,9 +1,9 @@
 {
     "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
     "name": "io.github.UltralayerHQ/ultralayer",
-    "title": "Ultralayer",
-    "description": "Realtime market intelligence: news, events, guidance, filing diffs, stakeholders, sentiment, alerts",
-    "version": "4.2.0",
+    "title": "Ultralayer: Stock Analysis",
+    "description": "Real-time stock market intelligence: news, events, guidance, filings, signals, sentiment, alerts",
+    "version": "4.3.0",
     "websiteUrl": "https://ultralayer.ai",
     "repository": {
       "url": "https://github.com/UltralayerHQ/ultralayer-plugin",

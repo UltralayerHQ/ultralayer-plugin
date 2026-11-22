@@ -1,7 +1,7 @@
 {
   "name": "ultralayer",
-  "version": "4.2.0",
-  "description": "Realtime market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
+  "version": "4.3.0",
+  "description": "Real-time stock market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite of stock analysis tools covering news and market events, company guidance and filing changes, market signals and sentiment, stock screening by theme & exposure, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. Proprietary datasets.",
   "author": {
     "name": "Ultralayer",
     "url": "https://ultralayer.ai"
@@ -9,22 +9,27 @@
   "homepage": "https://ultralayer.ai",
   "repository": "https://github.com/UltralayerHQ/ultralayer-plugin",
   "license": "MIT",
-  "keywords": ["finance", "mcp", "news", "earnings", "guidance", "alerts", "sentiment", "events", "equities", "market", "headlines", "stakeholders", "realtime"],
+  "keywords": ["finance", "stocks", "stock market", "stock analysis", "stock analysis tools", "stock research", "market intelligence", "news", "headlines", "events", "guidance", "company guidance", "filings", "signals", "market signals", "sentiment", "alerts", "stock screener", "themes", "equities", "investing", "stakeholders", "realtime", "mcp"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Ultralayer",
-    "shortDescription": "Realtime market intelligence",
-    "longDescription": "Realtime market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite covering news, events, guidance, filing changes, sentiment, stakeholders, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. All data is our own.",
+    "displayName": "Ultralayer: Stock Analysis",
+    "shortDescription": "Market events, signals, alerts",
+    "longDescription": "Real-time stock market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite of stock analysis tools covering news and market events, company guidance and filing changes, market signals and sentiment, stock screening by theme & exposure, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. Proprietary datasets.",
     "developerName": "Ultralayer",
     "category": "Finance",
     "websiteURL": "https://ultralayer.ai",
     "defaultPrompt": [
-      "Alert me by email when there's important news about my portfolio.",
+      "Show me what you can do with Ultralayer.",
       "What market events should I watch over the next week?",
-      "Did any of my holdings quietly change important language in their recent earnings releases?"
+      "What's the most important recent news for my portfolio?"
     ],
     "composerIcon": "./assets/icon.png",
     "logo": "./assets/logo.png"
+  },
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/how-to-use-ultralayer/SKILL.md"
+    }
   }
 }

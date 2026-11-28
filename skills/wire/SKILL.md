@@ -1,6 +1,6 @@
 ---
 name: wire
-description: Realtime and backtestable financial news wire — novelty-clustered headlines with entity mentions, sector and asset tags, and trust/importance scores. Operations are list_wire and wire_storyline.
+description: Realtime and backtestable financial news wire — novelty-clustered headlines with entity mentions, sector and asset tags, and trust/importance scores. Operations are list_wire, wire_storyline and entity_co_mentions.
 ---
 
 # Wire
@@ -11,6 +11,7 @@ The Wire is Ultralayer’s structured news firehose: short, fact-dense headlines
 |-----------|------|
 | `list_wire` | Filter + return the most recent matching wire items |
 | `wire_storyline` | Expand one item into its novelty ancestor chain + first-degree branches |
+| `entity_co_mentions` | The entities most often in the news together with one entity |
 
 **Plan:** every plan.
 
@@ -23,12 +24,12 @@ The Wire is Ultralayer’s structured news firehose: short, fact-dense headlines
 - Monitor a company, commodity, country, sector, or publisher
 - Deduplicate the firehose via `novelty` (`new` / `update` vs `duplicate`)
 - Reconstruct how a story evolved (updates, corrections, cross-publisher copies)
+- See who and what a company, person or topic is in the news with
 - Backtest a window with `start_timestamp` / `end_timestamp`
 - Build alert-ready conditions (wire alerts take the same filter fields, minus timestamps)
 
 **Do not use the Wire when you need:**
 - Open-web research (article body, quotes, filings, prices) → your native web search tool
-- A full entity package → `retrieve_entity`
 - Semantic “find similar stories by meaning” — `list_wire` is filter/recency, not embedding search
 
 ---
@@ -263,6 +264,28 @@ Example — multi-day geopolitics: seed linked through consecutive updates to a 
 
 ---
 
+## entity_co_mentions
+
+Given an `entity` (name or identifier, as in the entity filter), returns the entities most often named as main subjects (primary or significant) of the same recent wire items, with the share of those items each appears on.
+
+```json
+{
+  "entity_id": 1042,
+  "canonical_name": "NVIDIA Corporation",
+  "sample_start": "2026-11-24T13:05:00Z",
+  "sample_end": "2026-11-27T15:40:00Z",
+  "co_mentions": [{ "entity_id": 3310, "canonical_name": "Taiwan Semiconductor Manufacturing Company Limited", "share": 0.31 }]
+}
+```
+
+- `canonical_name` is the entity your name resolved to. Check it before you answer: a name can resolve to a related entity (a person's name to their institution). If it is not the one the user meant, try another spelling or the full name.
+- The count is over the entity's most recent wire items, so its span differs by entity: a few days for a heavily covered company, months for a small one. Read `sample_start` and `sample_end` before you call a co-mention recent.
+- `end_timestamp` (system time, inclusive, null = now) gives the co-mentions as Ultralayer had them at a past moment.
+- A share is how often the two are in the same news, not a business relationship. Use it to find what to look at next: a supplier, a rival, a regulator, a person.
+- An entity that was never a main subject of a wire item returns 422 `no_entity_mentions`, not charged.
+
+---
+
 ## Workflow
 
 | User intent | Approach |
@@ -274,6 +297,7 @@ Example — multi-day geopolitics: seed linked through consecutive updates to a 
 | “Who reported it first?” | Storyline with duplicates; earliest `new` / first_party press release is usually the root |
 | “Oil / Red Sea / rates?” | `asset_classes` + `sectors` + geopolitics/macro categories |
 | “What looked important on date D?” | Timestamp window + importance floor + novelty new/update |
+| “What is Company X tied up with in the news?” | `entity_co_mentions`, then `list_wire` on the top co-mentions |
 
 1. Clarify scope (entity / sector / theme / time).
 2. `list_wire` with novelty `new|update|correction`, an importance floor, and the tightest true filters.

@@ -30,7 +30,6 @@ description: Map a market situation to ranked public-company winners and losers 
 **Do not use when you need:**
 - Fast headline triage → Wire
 - Open-web research (article body, quotes, filings, prices) → your native web search tool
-- One company’s live dossier → `retrieve_entity`
 - Already-stored development packages → `search_developments` (SI creates fresh assessments; developments store prior ones)
 - Non-company stakeholders (countries, commodities, people, private cos) → out of scope (`PUBLIC_COMPANY` only)
 
@@ -159,7 +158,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 | “Who wins/loses if X?” | Realtime SI on a precise query; brief from impact extremes + factor matrix |
 | “As of date D, who mattered?” | Same query + past `end_timestamp` |
 | “Keep it short / sector-focused” | Put constraints in `instructions` |
-| “Drill one ticker after SI” | `retrieve_entity`, Wire, or developments with `symbols` |
+| “Drill one ticker after SI” | Wire, developments, or signals with `symbols` |
 | “Just give me headlines” | Wire — do not pay SI latency for firehose |
 
 1. Confirm the user wants situation → public-company exposure.
@@ -167,7 +166,7 @@ Use the matrix for “who is more exposed on dimension X?” Factor names are me
 3. Get approval if applicable: If you are an interactive chat agent, and there is a user waiting, get approval for the ~2 min wait before calling.
 4. Call once; wait. On timeout, retry once — do not fan out parallel SI calls.
 5. Brief: top ± impacts → factor matrix highlights → cite 1–2 quotes per key name.
-6. Offer follow-ups via Wire / developments / `retrieve_entity` / your native web search tool using returned symbols.
+6. Offer follow-ups via Wire / developments / signals / your native web search tool using returned symbols.
 
 ---
 
@@ -195,7 +194,7 @@ A: Treated as realtime.
 A: Not as structured stakeholders. They may appear in rationales/sources only.
 
 **Q: How do I continue after SI?**  
-A: Take symbols → Wire filters, `search_developments(symbols=…)`, `retrieve_entity`, or your native web search tool.
+A: Take symbols → Wire filters, `search_developments(symbols=…)`, signals, or your native web search tool.
 
 **Q: Empty / whitespace query?**  
 A: 422 `query must be a non-empty string.`

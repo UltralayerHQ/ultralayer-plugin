@@ -1,6 +1,6 @@
 {
   "name": "ultralayer",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "Real-time stock market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite of stock analysis tools covering news and market events, company guidance and filing changes, market signals and sentiment, stock screening by theme & exposure, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. Proprietary datasets.",
   "mcpServers": {
     "ultralayer-v0": {

@@ -28,7 +28,6 @@ description: Screen public companies by exposure to a theme, event or trend desc
 **Do not use when you need:**
 - A fresh, deep assessment of one concrete situation with a factor matrix, or a point-in-time backtest → `identify_stakeholders`
 - A pure fundamentals screen with no theme (“P/E under 15 and growth over 20%”) → rejected with a 422 and not charged; see **Queries with no theme**
-- One company's dossier → `retrieve_entity`
 - Headlines or the story behind a move → Wire
 - Prices, filings, open-web research → your native web search tool
 
@@ -200,7 +199,7 @@ Fix: add what the companies should be exposed to (“high dividend US utilities 
 2. Call once. Use `standard`, or `full` if you need quotes or market data beyond the five standard fields.
 3. Read `criterion` and `quant_filters` to confirm the screen is the one intended. If not, reword and call again.
 4. Brief from the top of `results`: score, exposure type, rationale, one quote for key names.
-5. Follow up on chosen symbols with `retrieve_entity`, `search_developments(symbols=…)`, Wire, or your native web search tool.
+5. Follow up on chosen symbols with `search_developments(symbols=…)`, Wire, signals, or your native web search tool.
 
 ---
 

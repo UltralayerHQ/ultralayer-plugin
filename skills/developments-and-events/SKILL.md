@@ -30,7 +30,6 @@ description: Structured market narratives — impact-scored, source-cited develo
 **Do not use when you need:**
 - Realtime novelty-clustered headlines → Wire
 - Open-web research (article body, quotes, filings, prices) → your native web search tool
-- A single-entity dossier → `retrieve_entity`
 - Entity-filtered headline monitoring → Wire
 
 ---
@@ -286,7 +285,7 @@ Missing event → 404.
 3. Keep `limit` small; set `detail: "standard"` (or `essential` on `search_events`); set `developments_per_event` low (or 0) when scanning events.
 4. `search_developments` already returns packages at your chosen `detail` — do not call `retrieve_development` on those ids unless you need as-of or a richer `detail`. Expand storylines with `retrieve_event_developments`.
 5. Collapse near-duplicate developments under the same event before briefing.
-6. Hand off to Wire for live novelty, your native web search tool for open-web research, `retrieve_entity` for identity packages.
+6. Hand off to Wire for live novelty and your native web search tool for open-web research.
 
 ---
 

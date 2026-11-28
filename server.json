@@ -3,7 +3,7 @@
     "name": "io.github.UltralayerHQ/ultralayer",
     "title": "Ultralayer: Stock Analysis",
     "description": "Real-time stock market intelligence: news, events, guidance, filings, signals, sentiment, alerts",
-    "version": "4.3.0",
+    "version": "4.4.0",
     "websiteUrl": "https://ultralayer.ai",
     "repository": {
       "url": "https://github.com/UltralayerHQ/ultralayer-plugin",

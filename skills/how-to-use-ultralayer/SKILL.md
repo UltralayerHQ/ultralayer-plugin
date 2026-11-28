@@ -93,12 +93,11 @@ The server can be newer than these skills. Where a tool's own description differ
 
 | Skill | What it gives you | Tools | Plan |
 |-------|-------------------|-------|------|
-| wire | The realtime news feed, as short headlines. Each one is marked new, update, or duplicate, scored for importance and trust, and tagged with its sectors, its asset classes, and the companies it mentions, each with a sentiment. Filter out the repeats, and follow one story back through its updates | `list_wire`, `wire_storyline` | Pay as you go |
+| wire | The realtime news feed, as short headlines. Each one is marked new, update, or duplicate, scored for importance and trust, and tagged with its sectors, its asset classes, and the companies it mentions, each with a sentiment. Filter out the repeats, follow one story back through its updates, and see what a company or person is in the news with | `list_wire`, `wire_storyline`, `entity_co_mentions` | Pay as you go |
 | developments-and-events | What happened, beyond the headline. A development names the companies it affects, with a signed impact score for each and the quotes behind it, and it can be scheduled ahead. An event links related developments into one story you can follow over time | `search_developments`, `retrieve_development`, `search_events`, `retrieve_event_developments` | Pay as you go |
-| entity-retrieval | A current briefing on one company, person, commodity, country, or institution: what it is, its recent important headlines, its sentiment trend, and what it is mentioned with | `retrieve_entity` | Pay as you go |
 | stock-screening | Companies ranked by their exposure to a theme you describe in plain language, each with a cited reason, combined with ordinary screener filters such as country and market cap | `screen_stocks` | Standard |
 | stakeholder-identification | Research on one situation you describe: the companies that win and lose, ranked, with verified tickers, signed impact scores, cited quotes, and a factor comparison. It is the research and verification Ultralayer uses for its own datasets, run on demand | `identify_stakeholders` | Standard |
-| signals | Daily or multi-day bars of news attention and sentiment for a sector, country, or asset class: a quantitative read to support or check a view | `market_signal` | Standard |
+| signals | How the market is acting toward a company, a sector, an asset class, a country or the whole US market, with history, such as volatility, beta, abnormal moves, news attention and sentiment, insider buying, market breadth, and market regime. One scale for every company, to compare, rank and screen | `list_signals`, `retrieve_signal`, `retrieve_signal_cross_section`, `retrieve_signal_coverage` | Standard; some signals and the cross-section need Pro |
 | guidance | Company outlooks as a dataset. What each company guided and how it revised, for one company or for one metric across companies; each outlook compared with the reported result; and a score of the company's track record | `list_guidance`, `list_guidance_outcomes`, `guidance_bias` | Pro |
 | changes | What a company started saying, stopped saying, or now says differently between one earnings press release and the last, with a category and a materiality score for each change | `list_changes` | Pro |
 | alerts | A wire, development, guidance, or wording-change query kept running on Ultralayer's side. Each new match goes to the user's email, Telegram, or a webhook | `create_alert`, `get_alerts`, `activate_alert`, `deactivate_alert`, `delete_alert` | Standard; alerts on guidance and wording changes need Pro |
@@ -131,7 +130,7 @@ Read a capability's skill before the first call to its tools.
 - `source_timestamp` is when the information became publicly available, as best Ultralayer can establish.
 - `occurrence_timestamp`, on developments, is the estimated real-world time of the thing itself. It can be in the future, which is how you find what is coming up.
 - Leave `end_timestamp` empty for realtime. Set it to a past time to ask "as of" that moment: the result holds only what was known then.
-- Not every tool is point-in-time. `screen_stocks` and `retrieve_entity` are realtime only. Each skill says what its tool supports.
+- Not every tool is point-in-time. `screen_stocks` is realtime only. Each skill says what its tool supports.
 - Times are UTC, in ISO 8601. A time bucket is labeled by its end, which is exclusive: a daily bar ending `2026-08-11T00:00:00Z` covers 10 August.
 
 **Names and tickers.** Some tools take an entity's full name (`Tesla, Inc.`) and some take an exact ticker (`TSLA`). Each skill says which. The wire and entity briefings work on names. Developments, guidance, and wording changes work on tickers.
@@ -155,6 +154,6 @@ These are examples, not the limit of what Ultralayer can do. The capabilities ar
 - **"Who is affected if copper supply tightens?"** A theme screen for a fast ranked list, or a stakeholder analysis for researched winners and losers. Then look at what those companies guided.
 - **"Which semiconductor companies raised their revenue outlook?"** Guidance for one metric across the companies, in place of reading each release.
 - **"Did management deliver what it guided?"** Each outlook against the reported result, the company's track record, and what changed in the wording of its releases.
-- **"Is attention on energy building?"** The sector's attention and sentiment bars, then the wire for what is behind a change.
+- **"Is the news on energy turning?"** The sector's news sentiment against its usual, then the wire for what is behind a change.
 - **"What did the market know on 3 March?"** The same queries with `end_timestamp` set to that date.
 - **"Tell me when this changes."** An alert on the same filters.

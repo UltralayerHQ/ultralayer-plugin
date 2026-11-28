@@ -31,7 +31,7 @@ Every filter works **without a ticker list**, so these are cross-sectional scree
 
 **`guidance_bias`** — Whether a name habitually guides below what it prints, which is a prior on the next guide.
 
-**Not these tools:** sell-side consensus, rumor, or reaction → Wire / developments / your own web search. Wording changes in the release → `list_changes`. A company dossier → `retrieve_entity`.
+**Not these tools:** sell-side consensus, rumor, or reaction → Wire / developments / your own web search. Wording changes in the release → `list_changes`.
 
 ---
 
@@ -345,7 +345,7 @@ Chains worth more than a single call.
 1. `list_guidance` — no tickers, `revision_direction: ["raised","lowered"]`, `sort: "revision_delta"`, `full`. The largest outlook moves in the market.
 2. Split the results yourself on `metric_key` and `metric_basis`. A raised cost guide is not a raised revenue guide, and one sentence can be both GAAP and non-GAAP.
 3. `list_changes` — `guidance_basis` on the same names, to separate real demand from a re-based outlook (a deal folded in, a tariff assumption added).
-4. `market_signal` or Wire — whether the tape has already priced it.
+4. `retrieve_signal` (`abnormal_move`, `attention`) or Wire — whether the stock's own move and its news have already reflected it.
 
 **Backtest a guidance signal**
 1. `list_guidance` — `end_timestamp` = decision date, `values_mode: "latest"`. The book as it stood, with no leakage.

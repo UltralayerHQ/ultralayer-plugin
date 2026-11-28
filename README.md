@@ -3,7 +3,6 @@
 [![Glama](https://img.shields.io/badge/Glama-listed-blue)](https://glama.ai/mcp/connectors/io.github.UltralayerHQ/ultralayer)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-listed-blue)](https://registry.modelcontextprotocol.io/?q=io.github.UltralayerHQ%2Fultralayer)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![smithery badge](https://smithery.ai/badge/ultralayer/ultralayer-v0)](https://smithery.ai/servers/ultralayer/ultralayer-v0)
 [![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/ultralayerhq/ultralayer-plugin)
 
 Real-time stock market intelligence for AI agents: what changed, who is affected, and what to watch next. One suite of stock analysis tools covering news and market events, company guidance and filing changes, market signals and sentiment, stock screening by theme & exposure, and alerts. Information-efficient responses with evidence for every result. First-class point-in-time safety for backtests. Pairs well with web search and a market-data API. Proprietary datasets.
